@@ -71,7 +71,7 @@ main() {
   stow_dotfiles
 
   info "Crating development folders"
-  mkdir -p ~/Development/protiumx
+  mkdir -p ~/Development/clembo590
 
   success "Finished stowing dotfiles"
 
