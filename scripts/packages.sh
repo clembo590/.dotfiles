@@ -26,6 +26,7 @@ packages=(
   lazydocker
   libpq
   macpass
+  mas
   minikube
   node
   nmap

@@ -7,7 +7,6 @@ apps=(
   firefox
   google-chrome
   kitty
-  mas
   rectangle
   slack
   spotify
