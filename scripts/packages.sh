@@ -33,7 +33,7 @@ packages=(
   openjdk
   openssl
   postgresql
-  python3
+  pyenv
   protobuf
   ripgrep          # fuzzy grep
   rlwrap
