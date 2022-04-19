@@ -2,7 +2,7 @@ setup_osx() {
   info "Configuring MacOS default settings"
 
   # force mouse scroll wheel on the correct direction
-  defaults write -g com.apple.swipescrolldirection -boolean false
+  defaults write -g com.apple.swipescrolldirection -bool false
   
   # Disable prompting to use new exteral drives as Time Machine volume
   defaults write com.apple.TimeMachine DoNotOfferNewDisksForBackup -bool true
