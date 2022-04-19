@@ -14,7 +14,12 @@ install_oh_my_zsh() {
 
 install_zsh_plugins() {
   info "Installing zsh-z"
-  git clone https://github.com/agkozak/zsh-z $ZSH/plugins/zsh-z
-  
-  success "Installed zsh-z"
+
+  if [[ ! -d "/path/to/dir" ]]; then
+    git clone https://github.com/agkozak/zsh-z $ZSH/plugins/zsh-z
+    success "Installed zsh-z"
+  else
+    warn "zsh-z already installed"
+  fi
+
 }
