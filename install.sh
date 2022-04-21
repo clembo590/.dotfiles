@@ -79,17 +79,6 @@ main() {
   setup_github_ssh
   success "Finished setting up SSH Key"
 
-  info "======= NeoVim Plugins ======="
-  wait_input
-  nvim +PlugInstall +qall
-  success "Finished installing nvim plugins"
-
-  if ! hash rustc &>/dev/null; then
-    info "======= Rust Setup ======="
-    wait_input
-    rustup-init
-  fi
-
   success "Done"
 
   info "System needs to restart. Restart?"
