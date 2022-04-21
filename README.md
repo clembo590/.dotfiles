@@ -9,7 +9,7 @@ Check my [Medium article](https://medium.com/@protiumx/bash-gnu-stow-take-a-walk
 
 Run the `dotenv` script:
 ```sh
-curl -sO https://raw.githubusercontent.com/protiumx/.dotfiles/main/dotfiles
+curl -sO https://raw.githubusercontent.com/clembo590/.dotfiles/main/dotfiles
 ```
 
 ## Reusing

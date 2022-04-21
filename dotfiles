@@ -50,7 +50,7 @@ info "####### dotfiles #######"
 read -p "Press enter to start:"
 info "Bootstraping..."
 
-# install_xcode NOT NECESSARY AS IT SEEMS THAT BREW INSTALLS IT
+install_xcode
 install_homebrew
 
 info "Installing Git"
