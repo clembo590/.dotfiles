@@ -50,7 +50,6 @@ stow_dotfiles() {
     ".gitconfig"
     ".aliases"
     ".zshrc"
-    ".p10k.sh"
     ".vimrc"
   )
   local folders=(

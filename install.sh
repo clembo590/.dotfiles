@@ -49,7 +49,8 @@ main() {
   wait_input
   install_macos_apps
 
-  install_masApps
+  # install_masApps
+  info "skipping macos apps"
   success "Finished installing macOS apps"
 
   info "======= NeoVim ======="
