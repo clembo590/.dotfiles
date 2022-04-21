@@ -7,7 +7,6 @@ set -o pipefail
 . scripts/utils.sh
 . scripts/brew.sh
 . scripts/cli.sh
-. scripts/config.sh
 . scripts/osx.sh
 . scripts/fonts.sh
 . scripts/packages.sh
