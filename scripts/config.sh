@@ -50,14 +50,13 @@ stow_dotfiles() {
     ".gitconfig"
     ".aliases"
     ".zshrc"
-    ".vimrc"
   )
+
   local folders=(
-    ".config/nvim"
-    ".config/kitty"
     ".git-templates/hooks"
     ".ssh"
   )
+  
   info "Removing existing config files"
   for f in $files; do
     rm -f "$HOME/$f" || true
@@ -69,7 +68,7 @@ stow_dotfiles() {
     mkdir -p "$HOME/$d"
   done
 
-  local dotfiles="git kitty nvim ssh vim zsh"
+  local dotfiles="git ssh zsh"
   info "Stowing: $dotfiles"
   stow -d stow --verbose 1 --target $HOME $dotfiles
 }

@@ -53,11 +53,6 @@ main() {
   info "skipping macos apps"
   success "Finished installing macOS apps"
 
-  info "======= NeoVim ======="
-  wait_input
-  install_neovim
-  success "Finished installing neovim"
-
   info "======= PiP modules ======="
   wait_input
   install_python_packages
@@ -77,7 +72,7 @@ main() {
   success "Finished stowing dotfiles"
 
   info "======= SSH Key ======="
-  setup_github_ssh
+ # setup_github_ssh
   success "Finished setting up SSH Key"
 
   success "Done"
