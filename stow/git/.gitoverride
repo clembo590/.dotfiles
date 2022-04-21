@@ -1,0 +1,10 @@
+[user]
+	email = "clembo590@gmail.com"
+	name = clem
+
+[url "git@clembo590-github.com:clembo590/"]
+    insteadOf = git@github.com:clembo590/
+
+[url "git@clembo590-github.com:marre-des-retards/"]
+    insteadOf = git@github.com:marre-des-retards/
+

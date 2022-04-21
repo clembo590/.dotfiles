@@ -1,0 +1,47 @@
+#example: 
+#setJavaGlobal 1.8.0.221
+#setJavaGlobal 11.0.4
+
+
+JENV_HOME=$HOME/.jenv
+export PATH=.:$PATH:$JENV_HOME/bin
+eval "$(jenv init -)"
+#export JAVA_HOME=$(/usr/libexec/java_home)
+export JAVA_HOME="$HOME/.jenv/versions/`jenv version-name`"
+alias jenv_set_java_home='export JAVA_HOME="$HOME/.jenv/versions/`jenv version-name`"'
+setJavaGlobal() { 
+  jenv global $1;
+  jenv_set_java_home
+  echoJavaSetup
+}
+setJavaLocal() { 
+  jenv local $1;
+  jenv_set_java_home
+  echoJavaSetup
+}
+echoJavaSetup() {
+  echo --------------------
+  echo NEW JAVA SETUP:
+  echo "  PATH: $PATH"
+  export JAVA_VERSION=`java -version 2>&1 >/dev/null | grep 'java version' | awk '{print $3}'`
+  echo "  JAVA: $JAVA_VERSION, $JAVA_HOME"
+  jenv versions
+  echo --------------------
+}
+removeJavaLocal() {
+  rm -rf ./.java-version
+}
+showJava() {
+  echo --------------------
+  echo EXISTING JAVA SETUP:
+  echo "  PATH: $PATH"
+  export JAVA_VERSION=`java -version 2>&1 >/dev/null | grep 'java version' | awk '{print $3}'`
+  echo "  JAVA: $JAVA_VERSION, $JAVA_HOME"
+  jenv versions
+  if [ -f ./.java-version ]; then
+    echo "Using Java LOCAL DEFAULT.  Not using global default!  Run command 'removeJavaLocal' to change to global default."
+  fi
+  echo --------------------
+}
+
+

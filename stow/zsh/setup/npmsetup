@@ -1,0 +1,4 @@
+alias ni='npm install'
+alias nr='npm run'
+alias nci='rm -rf node_modules && npm install'
+alias nc='rm -rf node_modules'

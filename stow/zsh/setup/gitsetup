@@ -1,0 +1,340 @@
+alias gitAbortMerge='git merge --abort'
+alias gitShowAssumeUnchanged="git ls-files -v | grep '^[a-z]' | cut -c3-"
+alias gitdUntrackAllUnTrackedFiles="git ls-files -v | grep '^[a-z]' | cut -c 3- | tr '\012' '\000' | xargs -0 git update-index --no-assume-unchanged"
+alias gitUntrackAllfilesUnderCurrentFolder="git ls-files -z | xargs -0 git update-index --assume-unchanged"
+alias gitRefreshPrune="git remote prune origin"
+alias gitSubInitAllModules="git submodule update --init --recursive --jobs 50"
+alias gitSubUpdateAllDetachedToLatest="git submodule update --recursive --remote"
+alias gitShowLog="git log --format=fuller "
+alias gitCancel="git clean -d -f; git reset --hard;"
+alias gitForceDeleteAllLocalBranches="git branch | grep -v 'KEEP' | xargs git branch -D"
+alias gitSafeDeleteAllLocalBranches="git branch | grep -v 'KEEP' | xargs git branch -d"
+alias gitCurrentBranch="git branch --show-current"
+
+
+#list all files that have been modified since the creation of the current branch
+#the output is the relative to git root folder (nothing to do with current folder)
+function gitListNamesOfFilesModifiedSinceCreationOfCurrentBranch(){
+  local listOfCommits=$(git log  --format=format:"%H"  --all --not $(git rev-list --no-walk     --exclude=HEAD     --exclude=refs/heads/$(gitCurrentBranch)     --exclude=refs/remotes/origin/$(gitCurrentBranch)     --all))
+
+  if [ -z "$listOfCommits" ]
+  then
+      return 0;
+  else
+      echo $listOfCommits | xargs git show --pretty="" --name-only | sort | uniq ;
+  fi
+}
+
+#list all modified files in the git repo
+#the output is the relative to git root folder (nothing to do with current folder)
+function gitListNamesOfFilesNotYetCommited(){
+  {
+    #  THE NEW FILES
+    git ls-files --others --exclude-standard;
+    #  Files that are not yet staged
+    git diff --name-only;
+    #  Files that are staged
+    git diff --name-only --staged;
+  } | sort | uniq
+}
+
+function gitListNamesOfAllModifiedFiles(){
+  {
+    gitListNamesOfFilesNotYetCommited;
+    gitListNamesOfFilesModifiedSinceCreationOfCurrentBranch; 
+  } | sort | uniq
+}
+
+function gitPatchMyBranch(){
+    local listOfNotYetCommitedFiles=$(gitListNamesOfFilesNotYetCommited)
+    if [ ! -z  "$listOfNotYetCommitedFiles" ]
+    then
+        echo  ARE YOU CRAZY YOU HAVE THINGS NOT YET COMMITED 
+    else
+        echo please enter the branch name or commit hashId that is your model
+        read myBranchId
+        git diff $(gitCurrentBranch)..$myBranchId | git apply
+    fi
+}
+
+
+
+gitDiffWithOriginMain(){
+    [ -z "$1" ] && echo "Expected command : gitDiffWithOriginMain 'branch'" && exit 0
+    git --no-pager diff $(_gitFindOriginMain)...$1
+}
+
+gitPushBranchOnlyIfNecessary(){
+    if [ -z "$(gitDiffWithOriginMain $(git branch --show-current))" ]
+    then
+        echo no change detected since creation of the branch ;
+    else
+        echo this branch has changed and should not be deleted ;
+    fi
+}
+
+gitAutoCommitAndPush(){
+    myGitCommit "auto commit"
+    myGitPush
+}
+
+gitCommitAndPush(){
+    myGitCommit
+    myGitPush
+}
+
+myGitPush(){
+    FILE=.gitmodules
+    if [[ -f "$FILE" ]]
+    then
+        _singleRepoGitPush ;
+        gitSubForEachLoadedModule '_singleRepoGitPush';
+    else
+        _singleRepoGitPush;
+    fi
+}
+
+_singleRepoGitPush(){
+    if [ -z "$(gitDiffWithOriginMain $(git branch --show-current))" ]
+    then
+        echo no change detected since creation of the branch IT S NOT NECESSARY TO PUSH IT 
+    else
+        git push -u $(_gitFindDefaultRemote) $(git branch --show-current) ;
+    fi
+}
+
+filterDeletedFiles(){
+  while read file; do
+    if test -f "$file"; then
+        echo $file
+    fi
+  done
+}
+
+myGitCommit(){
+    if [ -z "$1" ]
+      then
+        echo please enter the commit message ;
+        read message    ;
+      else
+        message=$1;
+      fi
+
+    FILE=.gitmodules
+    if [[ -f "$FILE" ]]
+      then
+        _singleRepoCommit $message;
+        gitSubForEachLoadedModule "_singleRepoCommit $message";
+      else
+        _singleRepoCommit $message;
+      fi
+
+}
+
+_singleRepoCommit(){
+    if [ -z "$1" ]
+      then
+        echo please enter the commit message ;
+        read message    ;
+      else
+            message=$1;
+      fi
+
+    echo this will be the commit message : $message
+    git add -A
+    git commit -m $message 
+}
+
+gitMDRChangeDate(){
+    [ -z "$1" ] && echo "Expected command : gitMDRChangeDate commitId" && exit 0
+    git rebase $1 --exec "git commit --amend --no-edit --date now ; "
+    sleep 1m
+}
+
+
+gitSubRmOne(){
+    [ -z "$1" ] && echo "Expected command : gitSubRm REPOSIORY" && exit 0
+    rm -rf $1/*  ;
+    rm -rf $1/.* ;
+}
+
+gitSubAddOne(){
+    [ -z "$1" ] && echo "Expected command : gitSubAdd REPOSIORY" && exit 0
+    git submodule update --init --recursive $1 ; # this is to get the code that corresponds to the given commit.
+    git submodule update --recursive --remote  $1 ; # this corresponds to "a kind of rebase on origin/main" BUT WE stay in detached mode.
+
+    gitSubCheckoutOne $@ 
+    git update-index --assume-unchanged $1
+}
+
+
+gitSubCheckoutOne(){
+    [ -z "$1" ] && echo "Expected command : gitSubCheckoutOne REPOSIORY" && exit 0
+    cd $1;
+    git fetch --prune;
+    if [ -z "$2" ]
+      then
+            branchName="$(_gitFindDefaultBanchName)";
+      else
+            branchName=$2;
+      fi
+
+    git branch -D $branchName;
+    git checkout -b $branchName $_gitFindOriginMain;
+    cd ..;
+}
+
+
+
+gitSubClear(){
+    gitListAllSubModules | while read data; do
+        gitSubRmOne $data ;
+    done
+}
+
+gitSubAddAll(){
+    gitSubInitAllModules;
+
+    echo init and update all modules finished;
+
+    gitListAllSubModules | while read data; do
+        {
+            gitSubCheckoutOne $data $@ 
+        } &
+    done
+    wait
+    gitListAllSubModules | xargs git update-index --assume-unchanged
+
+}
+
+gitTestConflict() {
+    foo=$1
+    bar=$2
+    mergebase=$(git merge-base $foo $bar)
+    if [ "$mergebase" = "" ];then
+        #in case foo and bar have no common ancestor, use the empty tree as the merge base
+        mergebase=4b825dc642cb6eb9a060e54bf8d69288fbee4904
+    fi
+    #test if the output has conflict markers of "merge" style
+    echo $(git merge-tree $mergebase $foo $bar | cat) | grep -oe '<<<<<<<.*=======.*>>>>>>>' > /dev/null; 
+    result="$?"
+    
+    if [ $result -eq 0 ]; then
+        echo conflict
+    elif [ $result -eq 1 ]; then
+        echo no conflict
+    else
+        echo error when trying to find conflic;
+    fi
+}
+
+gitSelfUpdateIfNoConflict(){
+    conflictResult=$(gitTestConflict $(git branch --show-current) $(_gitFindDefaultRemote)/$(git branch --show-current))
+    if [[ $conflictResult == "no conflict" ]]
+    then
+        echo no conflict detected So we can perform the rebase.
+        git branch --set-upstream-to=$(_gitFindDefaultRemote)/$(git branch --show-current)
+        git rebase $(_gitFindDefaultRemote)/$(git branch --show-current)
+    else
+        echo conflict or errror detected -- IMPOSSIBLE TO SELF PULL : $conflictResult
+    fi    
+}
+
+gitRebaseOriginMainIfNoConflict(){
+    conflictResult=$(gitTestConflict $(git branch --show-current) $(_gitFindOriginMain))
+    if [[ $conflictResult == "no conflict" ]]
+    then
+        echo no conflict detected So we can perform the rebase.
+        git branch --set-upstream-to=$(_gitFindOriginMain)
+        git rebase $_gitFindOriginMain
+        git branch --unset-upstream
+    else
+        echo conflict detected -- IMPOSSIBLE TO REBASE : $conflictResult
+    fi
+}
+
+# this is a for each loop that takes into account those that are not yet initialised.
+gitSubForEachLoadedModule(){
+    gitListLoadedModules | subModuleForEachPerformActionInParallel $@
+}
+
+gitListAllSubModules(){
+    grep path .gitmodules | sed 's/.*= //' 
+}
+
+gitListLoadedModules(){
+    gitListAllSubModules |  filterOnLoadedModule    
+}
+
+filterOnLoadedModule(){
+    FILE=.git
+    while read data; do
+        {
+            if [[ -f "$data/$FILE" ]]; then
+                echo $data;
+            fi
+        }
+    done
+}
+
+subModuleForEachPerformActionInParallel(){
+    while read data; do
+        {
+            cd $data;
+            FILE=.git
+            if [[ -f "$FILE" ]]; then
+                # echo $@ ;
+                eval $@ ;
+            fi
+            cd .. ;
+        } & 
+    done
+    wait
+}
+
+
+
+mvnLinkModules(){
+    mvnResolveArtificat(){
+        version=$(mvn --file $1 --quiet --batch-mode -DforceStdout help:evaluate -Dexpression='project.version'); 
+        groupArtifact=$(mvn --file $1 --quiet --batch-mode -DforceStdout help:evaluate -Dexpression='project.groupId}:${project.artifactId'); 
+        echo updating all pom file that 'reference' $groupArtifact:$version
+        mvn --quiet --batch-mode org.codehaus.mojo:versions-maven-plugin:2.8.1:use-dep-version -DallowSnapshots=true -DgenerateBackupPoms=false -DprocessParent=true -DexcludeReactor=false -DdepVersion=$version -DforceVersion=true -Dincludes=$groupArtifact
+        echo updating all pom file that 'reference' $groupArtifact:$version DONE
+    }
+    mnvUpdateModules(){
+        find * -name pom.xml | while read data; do
+        {
+            mvnResolveArtificat $data;
+        } & 
+        done
+        wait
+    }
+    mnvUpdateModules;
+}
+
+
+
+
+
+
+
+
+
+_gitFindDefaultRemote(){
+    remotes=$(git remote)
+    if [ "$(echo "$remotes" | sed -re '/^$/d' | wc -l)" -ne 1 ];
+    then 
+        echo 'we found more than a single remote....' && exit 0 
+    else 
+        echo $remotes; 
+    fi
+}
+
+_gitFindDefaultBanchName(){
+    git remote show $(_gitFindDefaultRemote) | sed -n '/HEAD branch/s/.*: //p'
+}
+
+_gitFindOriginMain(){
+    echo $(_gitFindDefaultRemote)/$(_gitFindDefaultBanchName)
+}

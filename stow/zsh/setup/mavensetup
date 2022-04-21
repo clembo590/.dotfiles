@@ -1,0 +1,43 @@
+alias mvnci='mvn -T 4 clean install'
+alias mvncint='mvnci -DUT.skip=true -DIT.skip=true'
+alias mvncintt='mvnci -Dmaven.test.skip=true -DUT.skip=true -DIT.skip=true'
+alias mvnSetVersion='mvn org.codehaus.mojo:versions-maven-plugin:2.8.1:set -DprocessAllModules=true -DgenerateBackupPoms=false'
+alias mvnSetVersionNotAll='mvn org.codehaus.mojo:versions-maven-plugin:2.8.1:set -DgenerateBackupPoms=false'
+alias mvnUpdateAllVersions='mvn org.codehaus.mojo:versions-maven-plugin:2.8.1:update-properties -DgenerateBackupPoms=false; mvn org.codehaus.mojo:versions-maven-plugin:2.8.1:use-latest-versions -DgenerateBackupPoms=false'
+alias mvnUpdateExampleVersions='mvn org.codehaus.mojo:versions-maven-plugin:2.8.1:update-properties -DallowSnapshots=true -DgenerateBackupPoms=false -DprocessParent=true -DexcludeReactor=false -Dincludes=com.example\*:\*; mvn org.codehaus.mojo:versions-maven-plugin:2.8.1:use-latest-versions -DallowSnapshots=true -DgenerateBackupPoms=false -DprocessParent=true -DexcludeReactor=false -Dincludes=com.example\*:\*'
+alias mvnListTasks="mvn fr.jcgay.maven.plugins:buildplan-maven-plugin:list"
+alias mvnListProjects="mvn -q exec:exec -Dexec.executable='pwd'"
+alias mvnSetVersionToRelease="mvnSetVersion -DremoveSnapshot -DgenerateBackupPoms=false"
+alias mvnSetVersionToSnapshot="mvnSetVersion -DnextSnapshot=true -DgenerateBackupPoms=false"
+alias mvnSortPom="mvn com.github.ekryd.sortpom:sortpom-maven-plugin:3.0.0:sort -Dsort.createBackupFile=false"
+
+
+mvnChangedModules(){
+ allmoduleschanged=$(git status | grep -E "modified:|deleted:|added:" | awk '{print $2}' | cut -f1 -d"/")
+ echo "Changed modules are : `echo $allmoduleschanged`"
+
+    [ -z "$1" ] && echo "Expected command : mvn_changed_modules (install/build/clean or any maven command)" && return 0
+
+                if [  -z "$allmoduleschanged" ];
+                then
+                        echo "No changes (modified / deleted / added)  found"
+                else
+                        echo "Changed modules are : `echo $allmoduleschanged`"
+                        mvn $1 -amd -pl $allmoduleschanged
+                fi
+}
+
+
+mvnDocker(){
+docker run \
+        --network host \
+            -v $(pwd):/app \
+            -w /app \
+            -v ~/.m2:/var/maven/.m2 \
+            -v /var/run/docker.sock:/var/run/docker.sock \
+            -e MAVEN_CONFIG=/var/maven/.m2 \
+            -e ryuk.container.privileged=true \
+            -e TESTCONTAINERS_RYUK_DISABLED=true \
+        --rm  \
+        maven:3.8.1-openjdk-16 mvn -Duser.home=/var/maven $@
+}

@@ -1,0 +1,213 @@
+#!/bin/zsh
+
+
+function fromModifiedFilesToParentPomFile() {
+  while read myFile; do {
+    pomFile=$(find $myFile -maxdepth 1 -type f -name "pom.xml")
+    if [[ $pomFile != *pom.xml ]] # * is used for pattern matching
+    then
+    while [[ $pomFile != *pom.xml ]] ; do
+        myFile=$(dirname $myFile)
+        pomFile=$(find $myFile -maxdepth 1 -type f -name "pom.xml")
+    done
+    fi
+    echo $pomFile
+  }
+  done
+}
+
+function findParentPomOfModifiedFiles(){
+  [ -z "$1" ] && echo "Expected command : findParentPomOfModifiedFiles modificationProvider" && return 0
+  modificationProvider=$1;
+  $modificationProvider | awk -v pwd=$(pwd)/ '{print pwd$1}' | fromModifiedFilesToParentPomFile | sort | uniq
+}
+
+function fromPomFileToProject(){
+    while read pomFile; do
+      pwd=$(pwd)
+      pwdSize=$((${#pwd}+2))
+      fullPomSize=${#pomFile}
+      end=$(($fullPomSize-8))
+      result=$( cut -c $pwdSize-$end <<< $pomFile)
+      if [ -z "$result" ]
+      then
+            echo .
+      else
+            echo $result
+      fi
+    done
+}
+
+function listOfModifiedProjects(){
+  [ -z "$1" ] && echo "Expected command : listOfModifiedProjects modificationProvider" && return 0
+  modificationProvider=$1;
+  findParentPomOfModifiedFiles $modificationProvider | fromPomFileToProject | tr '\n' ','
+}
+
+myMavenSetVersionPlugin='org.codehaus.mojo:versions-maven-plugin:2.10.0:set'
+
+function mvnVersionPluginSet(){
+  mvn --quiet --batch-mode $myMavenSetVersionPlugin -DgenerateBackupPoms=false -DupdateMatchingVersions=false -DprocessFromLocalAggregationRoot=false $@
+}
+
+function mvnSetSingleProjectVersion(){
+  mvnVersionPluginSet -DprocessAllModules=false -DprocessParent=false  $@
+}
+
+function mvnSetSingleProjectVersionToRelease(){
+  mvnSetSingleProjectVersion -DremoveSnapshot $@
+}
+
+function mvnSetSingleProjectVersionToSnapshot(){
+  echo settingVersionToSnapshot "$@"
+  mvnSetSingleProjectVersion -DnextSnapshot=true $@
+}
+
+function mvnSetVersionToSnapshotIfNotInSnapShot(){
+  artifactPackingVersion=$(mvn --quiet --batch-mode $@ -DforceStdout help:evaluate -Dexpression='project.groupId}:${project.artifactId}:${project.packaging}:${project.version'  )
+  if [[ $artifactPackingVersion != *SNAPSHOT ]]
+  then
+    mvnSetSingleProjectVersionToSnapshot $@
+  fi
+}
+
+
+function setVersionToSnapshotOneByOne(){
+    savedIFS=$IFS
+    IFS=','     # hyphen (-) is set as delimiter
+    read -rA projectList <<< "$1"   # str is read into an array as tokens separated by IFS
+    for project in "${projectList[@]}"; do   # access each element of array
+        if [ ! -z "$project" ]
+        then
+            mvnSetVersionToSnapshotIfNotInSnapShot --projects $project &
+        fi
+        wait
+    done
+    IFS=$savedIFS     # reset to default value after usage
+}
+
+
+function Help()
+{
+   # Display Help
+   echo "this function can be called with the following options"
+   echo
+   echo "Syntax: setModifiedProjectsToSnapshot [-b|c|h|r]"
+   echo "options:"
+   echo "b     modied changes of branch "
+   echo "c     current changes"
+   echo "h     Print this Help."
+   echo "r     recursive"
+   echo
+}
+
+
+function setModifiedProjectsToSnapshot(){
+  local modificationProvider=gitListNamesOfAllModifiedFiles;
+  while getopts ":bchr:" option; do
+    case $option in
+        h) # display Help
+          Help
+          return 0;;
+        b) # display Help
+          modificationProvider=gitListNamesOfFilesModifiedSinceCreationOfCurrentBranch;
+          ;;
+        c) # display Help
+          modificationProvider=gitListNamesOfFilesNotYetCommited;
+          ;;
+        \?) # Invalid option
+            echo "Error: Invalid option"
+            return 1;;
+    esac
+  done
+
+  savedListOfModifiedProject=$(listOfModifiedProjects $modificationProvider)
+  echo here is the list of projects that have been modified $savedListOfModifiedProject
+  if [ -z "$savedListOfModifiedProject" ]
+  then
+    echo nothing to do: nothing has been modified
+  else
+    setVersionToSnapshotOneByOne $savedListOfModifiedProject
+  fi
+}
+
+
+# function setModifiedProjectsToSnapshot(){
+#   savedListOfModifiedProject=$(listOfModifiedProjects gitListNamesOfFilesModifiedSinceCreationOfCurrentBranch)
+#   echo here is the list of projects that have been modified $savedListOfModifiedProject
+#   if [ -z "$savedListOfModifiedProject" ]
+#   then
+#     echo nothing to do: nothing has been modified
+#   else
+#     setVersionToSnapshotOneByOne $savedListOfModifiedProject
+#   fi
+# }
+
+
+function rddfsafa() (
+  ldfdsvvfdsm() {
+    echo inside;
+  }
+  ldfdsvvfdsm
+)
+
+
+function common(){
+
+
+echo "Hello world!"
+
+
+}
+
+function doIt(){
+  echo begin
+
+  if [ -z "$1" ]
+  then
+    savedListOfModifiedProject=$(listOfModifiedProjects)
+  else
+    savedListOfModifiedProject=$1;
+  fi
+
+  echo here is the list of projects that have been modified $savedListOfModifiedProject
+
+  if [ -z "$savedListOfModifiedProject" ]
+  then
+    echo nothing to do: nothing has been modified
+  else
+    setVersionToSnapshotOneByOne $savedListOfModifiedProject
+    echo prior to update we are building libraries modified by the commit and the one modified the by setVersionToSnapshotOneByOne
+    savedListOfModifiedProject=$(listOfModifiedProjects)
+    echo $savedListOfModifiedProject
+    mvn --quiet --batch-mode --projects $savedListOfModifiedProject clean install -DUT.skip=true -DIT.skip=true
+    echo prior to update we are building libraries modified by the commit and the one modified the by setVersionToSnapshotOneByOne DONE
+    
+    echo updating example versions
+    mvnUpdateExampleVersions
+    echo updating example versions DONE
+    newListOfModifiedProject=$(listOfModifiedProjects)
+    if [[ $newListOfModifiedProject != $savedListOfModifiedProject ]]
+    then
+      echo modif FIRST : $savedListOfModifiedProject  ------------- $newListOfModifiedProject
+      doIt
+    else
+      echo building only the librairies without executing any tests
+      mvn --quiet --batch-mode --projects $savedListOfModifiedProject clean install -DUT.skip=true -DIT.skip=true
+      mvnUpdateExampleVersions
+      newListOfModifiedProject2=$(listOfModifiedProjects)
+      if [[ $newListOfModifiedProject2 != $savedListOfModifiedProject ]]
+      then
+        echo modif SECOND : $savedListOfModifiedProject  ------------- $newListOfModifiedProject2
+        doIt
+      else
+        echo BUILDING THE WHOLE THING TO FINISH $newListOfModifiedProject2
+        docker kill $(docker ps -q)
+        docker rm $(docker ps -a -q)
+        mvn  --quiet --batch-mode --projects $newListOfModifiedProject2  clean install -DUT.skip=true -DIT.skip=true  && myGitCommit 'set version to snapshot'
+      fi
+    fi
+  fi
+}
+
+

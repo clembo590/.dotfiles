@@ -1,0 +1,13 @@
+# docker kill containers that are running;
+alias dockerKillAll='docker kill $(docker ps -q)'
+
+# docker delete containers that are not running
+alias dockerRmAll='docker rm $(docker ps -a -q)'
+
+# docker kill and delete containers
+alias dc='dockerKillAll;dockerRmAll;'
+alias dcsl='dc; ./local_docker.sh start; local_setup.sh start ;'
+
+alias dockerRmAllImages='docker rmi -f $(docker images -a -q)'
+
+alias dockerDisk='docker run --rm -it -v /:/docker alpine:edge $@'
