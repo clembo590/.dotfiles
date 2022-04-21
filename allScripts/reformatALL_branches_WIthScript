@@ -1,0 +1,1 @@
+git filter-branch --tree-filter '$(java -jar /Users/cboret/Downloads/google-java-format-1.10.0-all-deps.jar -r $(git ls-files|grep \.java$)) || echo fucking error on $(git rev-parse HEAD) ' -- --all

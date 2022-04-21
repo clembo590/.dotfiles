@@ -1,0 +1,9 @@
+# Mac OSX Finder hidden files
+.DS_Store
+.factorypath
+.java-version
+
+# Figaro gem
+config/application.yml
+
+.vscode/

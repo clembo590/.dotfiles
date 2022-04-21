@@ -1,0 +1,22 @@
+<TaskOptions>
+  <TaskOptions>
+    <option name="arguments" value="--add-exports jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED --add-exports jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED --add-exports jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED --add-exports jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED --add-exports jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED -jar /Users/cboret/code/externalTools/formatter/google-java-format-1.10.0-all-deps.jar -r $FilePath$" />
+    <option name="checkSyntaxErrors" value="true" />
+    <option name="description" />
+    <option name="exitCodeBehavior" value="ALWAYS" />
+    <option name="fileExtension" value="java" />
+    <option name="immediateSync" value="true" />
+    <option name="name" value="myFormatter" />
+    <option name="output" value="$FilePath$" />
+    <option name="outputFilters">
+      <array />
+    </option>
+    <option name="outputFromStdout" value="false" />
+    <option name="program" value="java" />
+    <option name="runOnExternalChanges" value="true" />
+    <option name="scopeName" value="Project Files" />
+    <option name="trackOnlyRoot" value="false" />
+    <option name="workingDir" value="" />
+    <envs />
+  </TaskOptions>
+</TaskOptions>
