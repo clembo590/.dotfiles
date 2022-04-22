@@ -35,13 +35,13 @@ setup_osx() {
   defaults write com.apple.finder "ShowStatusBar" -bool true
 
   # Do not show warning when changing the file extension
-  defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
+#   defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
 
   # Set search scope to current folder
   defaults write com.apple.finder FXDefaultSearchScope -string "SCcf"
 
   # Save screenshots in PNG format (other options: BMP, GIF, JPG, PDF, TIFF)
-  defaults write com.apple.screencapture type -string "png"
+#   defaults write com.apple.screencapture type -string "png"
 
   # Set weekly software update checks
   defaults write com.apple.SoftwareUpdate ScheduleFrequency -int 7
@@ -72,5 +72,5 @@ setup_osx() {
   defaults write com.apple.AppleMultitouchMouse MouseButtonMode -string "TwoButton"
 
   # Disable startup sound
-  sudo nvram SystemAudioVolume=%01
+#  sudo nvram SystemAudioVolume=%01
 }
