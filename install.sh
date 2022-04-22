@@ -47,7 +47,7 @@ main() {
 
   info "======= MacOS Apps ======="
   wait_input
-  install_macos_apps
+#  install_macos_apps
 
   # install_masApps
   info "skipping macos apps"
