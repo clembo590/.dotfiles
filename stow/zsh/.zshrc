@@ -62,15 +62,15 @@ alias beyondCompareReset="rm Library/Application\ Support/Beyond\ Compare/regist
 
 [[ -f "$HOME/.***REMOVED***-dotfiles/main.sh" ]] && source ~/.***REMOVED***-dotfiles/main.sh
 
-source setup/***REMOVED***specificsetup
-source setup/javasetup
-source setup/mavensetup
-source setup/npmsetup
-source setup/dockersetup
-source setup/gcloudsetup
-source setup/gitsetup
-source setup/nvmsetup
-source setup/mavenAndGitSetup
+source $HOME/.dotfiles/stow/zsh/setup/***REMOVED***specificsetup
+source $HOME/.dotfiles/stow/zsh/setup/javasetup
+source $HOME/.dotfiles/stow/zsh/setup/mavensetup
+source $HOME/.dotfiles/stow/zsh/setup/npmsetup
+source $HOME/.dotfiles/stow/zsh/setup/dockersetup
+source $HOME/.dotfiles/stow/zsh/setup/gcloudsetup
+source $HOME/.dotfiles/stow/zsh/setup/gitsetup
+source $HOME/.dotfiles/stow/zsh/setup/nvmsetup
+source $HOME/.dotfiles/stow/zsh/setup/mavenAndGitSetup
 
 #this is to introduce a small delay before "exectution of a shortcut" (to 'wait for another key stroke')
 KEYTIMEOUT=400
