@@ -9,6 +9,7 @@ set -o pipefail
 . scripts/cli.sh
 . scripts/osx.sh
 . scripts/fonts.sh
+. scripts/stow.sh
 . scripts/packages.sh
 . scripts/oh-my-zsh.sh
 
