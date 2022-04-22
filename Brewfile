@@ -20,6 +20,8 @@ brew "pkg-config"
 brew "coreutils"
 # Tool for exploring each layer in a docker image
 brew "dive"
+# Select default apps for documents and URL schemes on macOS
+brew "duti"
 # Generic library support script
 brew "libtool"
 # GNU Ubiquitous Intelligent Language for Extensions
@@ -70,6 +72,8 @@ brew "repo"
 brew "saml2aws"
 # Simple keystroke visualizer
 brew "showkey"
+# Organize software neatly under a single directory tree
+brew "stow"
 # Terraform version manager inspired by rbenv
 brew "tfenv"
 # Programmatically correct mistyped console commands

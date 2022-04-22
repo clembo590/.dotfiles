@@ -11,7 +11,7 @@ stow_dotfiles() {
   done
 
 
-  local dotfiles="git ssh zsh"
+  local dotfiles="git zsh"
   info "Stowing: $dotfiles"
   stow -d stow --verbose 1 --target $HOME $dotfiles
 }

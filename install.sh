@@ -19,7 +19,8 @@ cleanup() {
 }
 
 wait_input() {
-  read -p "Press enter to continue: "
+  # read -p "Press enter to continue: "
+  echo "Press enter to continue: "
 }
 
 trap cleanup EXIT
