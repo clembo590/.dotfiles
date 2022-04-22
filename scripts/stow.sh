@@ -1,5 +1,3 @@
-#!/usr/bin/env bash
-
 stow_dotfiles() {
   local dotfiles="git ssh zsh"
   info "Stowing: $dotfiles"
