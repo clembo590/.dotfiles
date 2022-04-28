@@ -68,6 +68,11 @@ main() {
   stow_dotfiles
   success "Finished stowing dotfiles"
 
+  info "======= setting up java ======="
+  jenv add /Library/Java/JavaVirtualMachines/temurin-17.jdk/Contents/Home
+  jenv add /Library/Java/JavaVirtualMachines/temurin-8.jdk/Contents/Home
+  jenv add /Library/Java/JavaVirtualMachines/temurin-11.jdk/Contents/Home
+
   info "======= SSH Key ======="
  # setup_github_ssh
   success "Finished setting up SSH Key"

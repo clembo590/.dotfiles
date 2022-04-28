@@ -1,4 +1,3 @@
-tap "adoptopenjdk/openjdk"
 tap "homebrew/bundle"
 tap "homebrew/cask"
 tap "homebrew/cask-versions"
@@ -82,14 +81,6 @@ brew "thefuck"
 brew "wget"
 # General-purpose lossless data-compression library
 brew "zlib"
-# AdoptOpenJDK OpenJDK (Java) Development Kit
-cask "adoptopenjdk11"
-# AdoptOpenJDK OpenJDK (Java) Development Kit
-cask "adoptopenjdk14"
-# AdoptOpenJDK OpenJDK (Java) Development Kit
-cask "adoptopenjdk15"
-# AdoptOpenJDK OpenJDK (Java) Development Kit
-cask "adoptopenjdk16"
 
 # VPN client that provides SAML authentication
 cask "aviatrix-vpn-client"
@@ -119,6 +110,12 @@ cask "postman"
 cask "sizeup"
 # Text editor for code, markup and prose
 cask "sublime-text"
+# JDK from the Eclipse Foundation (Adoptium)
+cask "temurin8"
+# JDK from the Eclipse Foundation (Adoptium)
+cask "temurin11"
+# JDK from the Eclipse Foundation (Adoptium)
+cask "temurin17"
 # JDK from the Eclipse Foundation (Adoptium)
 cask "temurin"
 # Open-source code editor
