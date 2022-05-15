@@ -25,6 +25,8 @@ wait_input() {
 
 trap cleanup EXIT
 
+trap "exit" INT TERM; trap "kill 0" EXIT; sudo -v || exit $?; sleep 1; while true; do sleep 60; sudo -nv; done 2>/dev/null &
+
 main() {
   info "Installing ..."
 
@@ -72,6 +74,15 @@ main() {
   jenv add /Library/Java/JavaVirtualMachines/temurin-17.jdk/Contents/Home
   jenv add /Library/Java/JavaVirtualMachines/temurin-8.jdk/Contents/Home
   jenv add /Library/Java/JavaVirtualMachines/temurin-11.jdk/Contents/Home
+
+  info "======= setting up node ======="
+    export NVM_DIR="$HOME/.nvm"
+  [ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
+  [ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+
+  nvm install --lts
+  nvm install v14.19.1
+  nvm install v12.22.12   
 
   info "======= SSH Key ======="
  # setup_github_ssh
