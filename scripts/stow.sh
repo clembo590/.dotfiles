@@ -3,6 +3,7 @@ stow_dotfiles() {
   local files=(
     ".gitconfig"
     ".zshrc"
+    ".zsh_history"
   )
   
   info "Removing existing config files"

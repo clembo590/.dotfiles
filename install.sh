@@ -30,6 +30,17 @@ trap "exit" INT TERM; trap "kill 0" EXIT; sudo -v || exit $?; sleep 1; while tru
 main() {
   info "Installing ..."
 
+  info "======= Oh-my-zsh ======="
+  wait_input
+  install_oh_my_zsh
+  success "Finished installing Oh-my-zsh"
+
+  read -p "Press enter to continue: "
+  echo "Press enter to continue: "
+
+  install_zsh_plugins
+  success "Finished installing Oh-my-zsh plugins"
+
   info "======= Homebrew packages ======="
   wait_input
   install_packages
@@ -39,14 +50,6 @@ main() {
   wait_input
   install_fonts
   success "Finished installing fonts"
-
-  info "======= Oh-my-zsh ======="
-  wait_input
-  install_oh_my_zsh
-  success "Finished installing Oh-my-zsh"
-
-  install_zsh_plugins
-  success "Finished installing Oh-my-zsh plugins"
 
   info "======= MacOS Apps ======="
   wait_input
@@ -67,8 +70,15 @@ main() {
   success "Finished configuring MacOS defaults. NOTE: A restart is needed"
   code_as_default_text_editor
   success "Finished setting up VSCode as default text editor"
+
+  read -p "Press enter to continue: "
+  echo "Press enter to continue: "
+
   stow_dotfiles
   success "Finished stowing dotfiles"
+
+  read -p "Press enter to continue: "
+  echo "Press enter to continue: "
 
   info "======= setting up java ======="
   jenv add /Library/Java/JavaVirtualMachines/temurin-17.jdk/Contents/Home
@@ -76,15 +86,10 @@ main() {
   jenv add /Library/Java/JavaVirtualMachines/temurin-11.jdk/Contents/Home
 
   info "======= setting up node ======="
-    export NVM_DIR="$HOME/.nvm"
-  [ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
-  [ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
-
   nvm install --lts
   nvm install v14.19.1
   nvm install v12.22.12
 
-  ln -s ./plist/com.knollsoft.Rectangle.plist /Users/cboret/Library/Preferences/com.knollsoft.Rectangle.plist 
 
   info "======= SSH Key ======="
  # setup_github_ssh
@@ -92,8 +97,16 @@ main() {
 
   success "Done"
 
-  info "System needs to restart. Restart?"
 
+
+
+
+
+
+
+
+  info "System needs to restart. Restart?"
+  
   select yn in "y" "n"; do
     case $yn in
         y ) sudo shutdown -r now; break;;
