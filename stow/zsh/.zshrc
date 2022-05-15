@@ -1,25 +1,5 @@
-#######################################################
-# load Square specific zshrc; please don't change this bit.
-#######################################################
-# source ~/Development/config_files/square/zshrc
-[[ -f "$HOME/Development/config_files/square/zshrc" ]] && source ~/Development/config_files/square/zshrc
-#######################################################
-
-###########################################
-# Feel free to make your own changes below.
-###########################################
-
-# uncomment to automatically `bundle exec` common ruby commands
-# if [[ -f "$SQUARE_HOME/config_files/square/bundler-exec.sh" ]]; then
-#   source $SQUARE_HOME/config_files/square/bundler-exec.sh
-# fi
-
-# load the aliases in config_files files (optional)
-# source ~/Development/config_files/square/aliases
-[[ -f "$HOME/Development/config_files/square/aliases" ]] && source ~/Development/config_files/square/aliases
-
-[[ -f "$HOME/.aliases" ]] && source "$HOME/.aliases"
-[[ -f "$HOME/.localaliases" ]] && source "$HOME/.localaliases"
+MONO_PREFIX="${funcsourcetrace[1]%/*}/setup"
+echo voici monoPrefix : $MONO_PREFIX
 
 ZSH=$HOME/.oh-my-zsh
 ZSH_DISABLE_COMPFIX=true
@@ -60,17 +40,17 @@ export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/b
 
 alias beyondCompareReset="rm Library/Application\ Support/Beyond\ Compare/registry.dat;"
 
-[[ -f "$HOME/.***REMOVED***-dotfiles/main.sh" ]] && source ~/.***REMOVED***-dotfiles/main.sh
 
-source $HOME/.dotfiles/stow/zsh/setup/***REMOVED***specificsetup
-source $HOME/.dotfiles/stow/zsh/setup/javasetup
-source $HOME/.dotfiles/stow/zsh/setup/mavensetup
-source $HOME/.dotfiles/stow/zsh/setup/npmsetup
-source $HOME/.dotfiles/stow/zsh/setup/dockersetup
-source $HOME/.dotfiles/stow/zsh/setup/gcloudsetup
-source $HOME/.dotfiles/stow/zsh/setup/gitsetup
-source $HOME/.dotfiles/stow/zsh/setup/nvmsetup
-source $HOME/.dotfiles/stow/zsh/setup/mavenAndGitSetup
+source $MONO_PREFIX/***REMOVED***specificsetup
+source $MONO_PREFIX/javasetup
+source $MONO_PREFIX/mavensetup
+source $MONO_PREFIX/npmsetup
+source $MONO_PREFIX/dockersetup
+source $MONO_PREFIX/gcloudsetup
+source $MONO_PREFIX/gitsetup
+source $MONO_PREFIX/nvmsetup
+source $MONO_PREFIX/mavenAndGitSetup
+source $MONO_PREFIX/various
 
 #this is to introduce a small delay before "exectution of a shortcut" (to 'wait for another key stroke')
 KEYTIMEOUT=400

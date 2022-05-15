@@ -82,7 +82,9 @@ main() {
 
   nvm install --lts
   nvm install v14.19.1
-  nvm install v12.22.12   
+  nvm install v12.22.12
+
+  ln -s ./plist/com.knollsoft.Rectangle.plist /Users/cboret/Library/Preferences/com.knollsoft.Rectangle.plist 
 
   info "======= SSH Key ======="
  # setup_github_ssh
