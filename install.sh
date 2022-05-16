@@ -71,24 +71,13 @@ main() {
   code_as_default_text_editor
   success "Finished setting up VSCode as default text editor"
 
+
+  info "======= will start to stow files ======="
   read -p "Press enter to continue: "
-  echo "Press enter to continue: "
 
   stow_dotfiles
   success "Finished stowing dotfiles"
 
-  read -p "Press enter to continue: "
-  echo "Press enter to continue: "
-
-  info "======= setting up java ======="
-  jenv add /Library/Java/JavaVirtualMachines/temurin-17.jdk/Contents/Home
-  jenv add /Library/Java/JavaVirtualMachines/temurin-8.jdk/Contents/Home
-  jenv add /Library/Java/JavaVirtualMachines/temurin-11.jdk/Contents/Home
-
-  info "======= setting up node ======="
-  nvm install --lts
-  nvm install v14.19.1
-  nvm install v12.22.12
 
 
   info "======= SSH Key ======="
@@ -97,13 +86,8 @@ main() {
 
   success "Done"
 
-
-
-
-
-
-
-
+  info "======= starting to install extra jenv and nenv ======="
+  /bin/zsh extra.install.sh
 
   info "System needs to restart. Restart?"
   
