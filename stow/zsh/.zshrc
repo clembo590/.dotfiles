@@ -1,5 +1,4 @@
 MONO_PREFIX="${funcsourcetrace[1]%/*}/setup"
-echo voici monoPrefix : $MONO_PREFIX
 
 ZSH=$HOME/.oh-my-zsh
 ZSH_DISABLE_COMPFIX=true
@@ -41,7 +40,6 @@ export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/b
 alias beyondCompareReset="rm Library/Application\ Support/Beyond\ Compare/registry.dat;"
 
 
-source $MONO_PREFIX/***REMOVED***specificsetup
 source $MONO_PREFIX/javasetup
 source $MONO_PREFIX/mavensetup
 source $MONO_PREFIX/npmsetup

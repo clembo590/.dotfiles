@@ -54,8 +54,8 @@
   mergeoptions = --no-edit
 
 [user]
-	email = clement.boret@***REMOVED***.com
-	name = clement-boret
+	email = clembo590@gmail.com
+	name = clembo590
 
 [include]
     path = ~/.gitconfig_local

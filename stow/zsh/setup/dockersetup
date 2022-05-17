@@ -11,3 +11,8 @@ alias dcsl='dc; ./local_docker.sh start; local_setup.sh start ;'
 alias dockerRmAllImages='docker rmi -f $(docker images -a -q)'
 
 alias dockerDisk='docker run --rm -it -v /:/docker alpine:edge $@'
+
+
+dockerLog() {
+   docker logs -f $@
+}
