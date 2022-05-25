@@ -301,6 +301,10 @@ mvnLinkModules(){
         done
         wait
     }
+    mvnUpdateAllParentSections(){
+         mvn -N  -DUT.skip=true -DIT.skip=true org.codehaus.mojo:versions-maven-plugin:2.8.1:update-child-modules -DprocessAllModules=true -DgenerateBackupPoms=false
+    }
+    mvnUpdateAllParentSections;
     mnvUpdateModules;
 }
 
