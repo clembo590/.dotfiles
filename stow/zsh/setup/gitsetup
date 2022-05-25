@@ -283,6 +283,14 @@ subModuleForEachPerformActionInParallel(){
     wait
 }
 
+removeDuplicateEmptyLinesFromFiles(){
+     echo removing double empty lines inside the files $@;
+     sed -i '' '$!N; /^\(.*\)\n\1$/!P; D' $@;
+}
+
+removeDuplicateEmptyLinesFromModifiedFiles(){
+    gitListNamesOfAllModifiedFiles | filterDeletedFiles | xargs sed -i '' '$!N; /^\(.*\)\n\1$/!P; D'
+}
 
 
 mvnLinkModules(){
