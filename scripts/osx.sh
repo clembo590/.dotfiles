@@ -63,6 +63,10 @@ setup_osx() {
   # Stop iTunes from responding to the keyboard media keys
   launchctl unload -w /System/Library/LaunchAgents/com.apple.rcd.plist 2> /dev/null
 
+  # show bluetooth in menu bar
+  defaults write com.apple.controlcenter "NSStatusItem Visible Bluetooth" -bool true
+  defaults write com.apple.controlcenter Bluetooth -int 18
+
 
 ###############################################################################
 # Energy saving                                                               #
