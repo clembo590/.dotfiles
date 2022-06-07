@@ -1,6 +1,16 @@
 setup_osx() {
   info "Configuring MacOS default settings"
 
+  # Wipe all (default) app icons from the Dock
+  defaults write com.apple.dock persistent-apps -array
+
+  # Don’t show recent applications in Dock
+  defaults write com.apple.dock show-recents -bool false
+
+  # shrinking the Icons of Launchpad
+ defaults write com.apple.Dock springboard-rows -int 10
+ defaults write com.apple.Dock springboard-columns -int 10
+
   # force mouse scroll wheel on the correct direction
   defaults write -g com.apple.swipescrolldirection -bool false
   
@@ -66,6 +76,188 @@ setup_osx() {
   # show bluetooth in menu bar
   defaults write com.apple.controlcenter "NSStatusItem Visible Bluetooth" -bool true
   defaults -currentHost write com.apple.controlcenter Bluetooth -int 18
+  
+  # show sound in menu bar
+  defaults write com.apple.controlcenter "NSStatusItem Visible Sound" -bool true
+  defaults -currentHost write com.apple.controlcenter Sound -int 18
+
+
+  # shortcuts for all the different desktops
+
+  defaults write com.apple.symbolichotkeys.plist AppleSymbolicHotKeys -dict-add 118 "
+  		<dict>
+			<key>enabled</key>
+			<true/>
+			<key>value</key>
+			<dict>
+				<key>parameters</key>
+				<array>
+					<integer>65535</integer>
+					<integer>18</integer>
+					<integer>262144</integer>
+				</array>
+				<key>type</key>
+				<string>standard</string>
+			</dict>
+		</dict>
+"
+
+  defaults write com.apple.symbolichotkeys.plist AppleSymbolicHotKeys -dict-add 119 "
+		<dict>
+			<key>enabled</key>
+			<true/>
+			<key>value</key>
+			<dict>
+				<key>parameters</key>
+				<array>
+					<integer>65535</integer>
+					<integer>19</integer>
+					<integer>262144</integer>
+				</array>
+				<key>type</key>
+				<string>standard</string>
+			</dict>
+		</dict>
+"
+ 
+  defaults write com.apple.symbolichotkeys.plist AppleSymbolicHotKeys -dict-add 120 "
+		<dict>
+			<key>enabled</key>
+			<true/>
+			<key>value</key>
+			<dict>
+				<key>parameters</key>
+				<array>
+					<integer>65535</integer>
+					<integer>20</integer>
+					<integer>262144</integer>
+				</array>
+				<key>type</key>
+				<string>standard</string>
+			</dict>
+		</dict>
+"
+
+
+ 
+  defaults write com.apple.symbolichotkeys.plist AppleSymbolicHotKeys -dict-add 121 "
+		<dict>
+			<key>enabled</key>
+			<true/>
+			<key>value</key>
+			<dict>
+				<key>parameters</key>
+				<array>
+					<integer>65535</integer>
+					<integer>21</integer>
+					<integer>262144</integer>
+				</array>
+				<key>type</key>
+				<string>standard</string>
+			</dict>
+		</dict>
+"
+
+
+ 
+  defaults write com.apple.symbolichotkeys.plist AppleSymbolicHotKeys -dict-add 122 "
+		<dict>
+			<key>enabled</key>
+			<true/>
+			<key>value</key>
+			<dict>
+				<key>parameters</key>
+				<array>
+					<integer>65535</integer>
+					<integer>23</integer>
+					<integer>262144</integer>
+				</array>
+				<key>type</key>
+				<string>standard</string>
+			</dict>
+		</dict>
+"
+
+ 
+  defaults write com.apple.symbolichotkeys.plist AppleSymbolicHotKeys -dict-add 123 "
+		<dict>
+			<key>enabled</key>
+			<true/>
+			<key>value</key>
+			<dict>
+				<key>parameters</key>
+				<array>
+					<integer>65535</integer>
+					<integer>22</integer>
+					<integer>262144</integer>
+				</array>
+				<key>type</key>
+				<string>standard</string>
+			</dict>
+		</dict>
+"
+
+  defaults write com.apple.symbolichotkeys.plist AppleSymbolicHotKeys -dict-add 124 "
+		<dict>
+			<key>enabled</key>
+			<true/>
+			<key>value</key>
+			<dict>
+				<key>parameters</key>
+				<array>
+					<integer>65535</integer>
+					<integer>26</integer>
+					<integer>262144</integer>
+				</array>
+				<key>type</key>
+				<string>standard</string>
+			</dict>
+		</dict>
+"
+
+
+  defaults write com.apple.symbolichotkeys.plist AppleSymbolicHotKeys -dict-add 125 "
+		<dict>
+			<key>enabled</key>
+			<true/>
+			<key>value</key>
+			<dict>
+				<key>parameters</key>
+				<array>
+					<integer>65535</integer>
+					<integer>28</integer>
+					<integer>262144</integer>
+				</array>
+				<key>type</key>
+				<string>standard</string>
+			</dict>
+		</dict>
+"
+
+
+# this is to enable launchpad with command + option + ctrl + up
+  defaults write com.apple.symbolichotkeys.plist AppleSymbolicHotKeys -dict-add 160 "
+		<dict>
+			<key>enabled</key>
+			<true/>
+			<key>value</key>
+			<dict>
+				<key>parameters</key>
+				<array>
+					<integer>65535</integer>
+					<integer>126</integer>
+					<integer>12320768</integer>
+				</array>
+				<key>type</key>
+				<string>standard</string>
+			</dict>
+		</dict>
+"
+
+
+
+
+
 
 
 ###############################################################################

@@ -107,7 +107,7 @@ cask "intellij-idea"
 # Collaboration platform for API development
 cask "postman"
 # Utility to resize and position application windows
-cask "sizeup"
+cask "rectangle"
 # Text editor for code, markup and prose
 cask "sublime-text"
 # JDK from the Eclipse Foundation (Adoptium)
