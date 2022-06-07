@@ -65,7 +65,7 @@ setup_osx() {
 
   # show bluetooth in menu bar
   defaults write com.apple.controlcenter "NSStatusItem Visible Bluetooth" -bool true
-  defaults write com.apple.controlcenter Bluetooth -int 18
+  defaults -currentHost write com.apple.controlcenter Bluetooth -int 18
 
 
 ###############################################################################
