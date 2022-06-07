@@ -4,6 +4,10 @@ setup_osx() {
   # Wipe all (default) app icons from the Dock
   defaults write com.apple.dock persistent-apps -array
 
+for dockItem in {/System/Applications/System\ Preferences,/System/Applications/Utilities/Terminal,/Applications/{"Visual Studio Code","Google Chrome"}}.app; do
+  defaults write com.apple.dock persistent-apps -array-add '<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>'$dockItem'</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>'
+done
+
   # Don’t show recent applications in Dock
   defaults write com.apple.dock show-recents -bool false
 
