@@ -11,6 +11,10 @@ alias mvnSetVersionToRelease="mvnSetVersion -DremoveSnapshot -DgenerateBackupPom
 alias mvnSetVersionToSnapshot="mvnSetVersion -DnextSnapshot=true -DgenerateBackupPoms=false"
 alias mvnSortPom="mvn com.github.ekryd.sortpom:sortpom-maven-plugin:3.0.0:sort -Dsort.createBackupFile=false"
 
+mvnDebugTest(){
+       mvn -Dtest=$1 -Dmaven.surefire.debug='-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=localhost:8000' test  
+}
+
 
 mvnChangedModules(){
  allmoduleschanged=$(git status | grep -E "modified:|deleted:|added:" | awk '{print $2}' | cut -f1 -d"/")
