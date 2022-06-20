@@ -1,3 +1,5 @@
+alias m='mvn -T 1C --no-snapshot-updates'
+
 alias mvnci='mvn -T 4 clean install'
 alias mvncint='mvnci -DUT.skip=true -DIT.skip=true'
 alias mvncintt='mvnci -Dmaven.test.skip=true -DUT.skip=true -DIT.skip=true'
