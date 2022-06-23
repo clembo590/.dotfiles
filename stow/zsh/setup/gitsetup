@@ -10,6 +10,7 @@ alias gitCancel="git clean -d -f; git reset --hard;"
 alias gitForceDeleteAllLocalBranches="git branch | grep -v 'KEEP' | xargs git branch -D"
 alias gitSafeDeleteAllLocalBranches="git branch | grep -v 'KEEP' | xargs git branch -d"
 alias gitCurrentBranch="git branch --show-current"
+alias gitOrphanEmptyBranch='(){git checkout --orphan $1; git rm -rf . ;rm -rf ./*; echo "#Title of Readme" > README.md ;git add README.md ; git commit -am "Initial Commit" ;}'
 
 
 #list all files that have been modified since the creation of the current branch
