@@ -342,3 +342,5 @@ _gitFindDefaultBanchName(){
 _gitFindOriginMain(){
     echo $(_gitFindDefaultRemote)/$(_gitFindDefaultBanchName)
 }
+
+alias openAllFilesOnThisBranch='code $(gitListNamesOfAllModifiedFiles|filterDeletedFiles)'
