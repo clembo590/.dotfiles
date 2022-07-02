@@ -34,6 +34,12 @@ mvnChangedModules(){
                 fi
 }
 
+mvnDiffOnly(){
+  allmoduleschanged=$(listOfModifiedProjects gitListNamesOfAllModifiedFiles)
+  echo "Changed modules are : `echo $allmoduleschanged`"
+  mvn clean install -amd -pl $allmoduleschanged 
+}
+
 
 mvnDocker(){
 docker run \
