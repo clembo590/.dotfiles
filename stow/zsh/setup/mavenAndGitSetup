@@ -78,8 +78,9 @@ function setVersionToSnapshotOneByOne(){
         then
             mvnSetVersionToSnapshotIfNotInSnapShot --projects $project &
         fi
-        wait
     done
+    wait
+    
     IFS=$savedIFS     # reset to default value after usage
 }
 
