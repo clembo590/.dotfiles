@@ -100,7 +100,7 @@ function Help()
 }
 
 
-function setModifiedProjectsToSnapshot(){
+function mvnDiffToSnapshot(){
   local modificationProvider=gitListNamesOfAllModifiedFiles;
   while getopts ":bchr:" option; do
     case $option in
