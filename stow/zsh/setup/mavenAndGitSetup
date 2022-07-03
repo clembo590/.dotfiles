@@ -90,35 +90,45 @@ function Help()
    # Display Help
    echo "this function can be called with the following options"
    echo
-   echo "Syntax: setModifiedProjectsToSnapshot [-b|c|h|r]"
+   echo "Syntax: switchModificationProvider [-b|c|h|r]"
    echo "options:"
-   echo "b     modied changes of branch "
-   echo "c     current changes"
+   echo "a     all changes (b+c)"
+   echo "b     modied changes of branch (commited only) "
+   echo "c     current changes (not commited)"
    echo "h     Print this Help."
-   echo "r     recursive"
    echo
 }
 
+export modificationProvider=gitListNamesOfAllModifiedFiles;
 
-function mvnDiffToSnapshot(){
-  local modificationProvider=gitListNamesOfAllModifiedFiles;
-  while getopts ":bchr:" option; do
+function switchModificationProvider(){
+  while getopts ":abchr:" option; do
     case $option in
         h) # display Help
           Help
           return 0;;
+        a) # display Help
+          echo gitListNamesOfAllModifiedFiles;
+          export modificationProvider=gitListNamesOfAllModifiedFiles;
+          ;;
         b) # display Help
-          modificationProvider=gitListNamesOfFilesModifiedSinceCreationOfCurrentBranch;
+          echo gitListNamesOfFilesModifiedSinceCreationOfCurrentBranch;
+          export modificationProvider=gitListNamesOfFilesModifiedSinceCreationOfCurrentBranch;
           ;;
         c) # display Help
-          modificationProvider=gitListNamesOfFilesNotYetCommited;
+          echo gitListNamesOfFilesNotYetCommited;
+          export modificationProvider=gitListNamesOfFilesNotYetCommited;
           ;;
         \?) # Invalid option
             echo "Error: Invalid option"
             return 1;;
     esac
   done
+}
 
+
+
+function mvnDiffToSnapshot(){
   savedListOfModifiedProject=$(listOfModifiedProjects $modificationProvider)
   echo here is the list of projects that have been modified $savedListOfModifiedProject
   if [ -z "$savedListOfModifiedProject" ]
@@ -128,18 +138,6 @@ function mvnDiffToSnapshot(){
     setVersionToSnapshotOneByOne $savedListOfModifiedProject
   fi
 }
-
-
-# function setModifiedProjectsToSnapshot(){
-#   savedListOfModifiedProject=$(listOfModifiedProjects gitListNamesOfFilesModifiedSinceCreationOfCurrentBranch)
-#   echo here is the list of projects that have been modified $savedListOfModifiedProject
-#   if [ -z "$savedListOfModifiedProject" ]
-#   then
-#     echo nothing to do: nothing has been modified
-#   else
-#     setVersionToSnapshotOneByOne $savedListOfModifiedProject
-#   fi
-# }
 
 
 function rddfsafa() (
