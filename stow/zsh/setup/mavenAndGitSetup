@@ -68,7 +68,6 @@ function mvnSetVersionToSnapshotIfNotInSnapShot(){
   fi
 }
 
-
 function setVersionToSnapshotOneByOne(){
     savedIFS=$IFS
     IFS=','     # hyphen (-) is set as delimiter
@@ -76,7 +75,12 @@ function setVersionToSnapshotOneByOne(){
     for project in "${projectList[@]}"; do   # access each element of array
         if [ ! -z "$project" ]
         then
-            mvnSetVersionToSnapshotIfNotInSnapShot --projects $project &
+          if [ "$toSnapshot" = true ]
+          then
+            mvnSetVersionToSnapshotIfNotInSnapShot --projects $project & 
+          else  
+            mvnSetSingleProjectVersionToRelease --projects $project &
+          fi
         fi
     done
     wait
@@ -84,10 +88,8 @@ function setVersionToSnapshotOneByOne(){
     IFS=$savedIFS     # reset to default value after usage
 }
 
-
-function Help()
+function DisplayHelp()
 {
-   # Display Help
    echo "this function can be called with the following options"
    echo
    echo "Syntax: switchModificationProvider [-b|c|h|r]"
@@ -100,22 +102,23 @@ function Help()
 }
 
 export modificationProvider=gitListNamesOfAllModifiedFiles;
+export toSnapshot=true;
 
 function switchModificationProvider(){
   while getopts ":abchr:" option; do
     case $option in
         h) # display Help
-          Help
+          DisplayHelp;
           return 0;;
-        a) # display Help
+        a) # all changes
           echo gitListNamesOfAllModifiedFiles;
           export modificationProvider=gitListNamesOfAllModifiedFiles;
           ;;
-        b) # display Help
+        b) # modified changes of branch (commited only)
           echo gitListNamesOfFilesModifiedSinceCreationOfCurrentBranch;
           export modificationProvider=gitListNamesOfFilesModifiedSinceCreationOfCurrentBranch;
           ;;
-        c) # display Help
+        c) # current changes (not commited)
           echo gitListNamesOfFilesNotYetCommited;
           export modificationProvider=gitListNamesOfFilesNotYetCommited;
           ;;
@@ -129,14 +132,20 @@ function switchModificationProvider(){
 
 
 function mvnDiffToSnapshot(){
-  savedListOfModifiedProject=$(listOfModifiedProjects $modificationProvider)
-  echo here is the list of projects that have been modified $savedListOfModifiedProject
-  if [ -z "$savedListOfModifiedProject" ]
-  then
-    echo nothing to do: nothing has been modified
-  else
-    setVersionToSnapshotOneByOne $savedListOfModifiedProject
-  fi
+    if [ -z "$1" ]
+    then
+        savedListOfModifiedProject=$(listOfModifiedProjects $modificationProvider);
+    else
+        savedListOfModifiedProject=$1;
+    fi
+
+    echo here is the list of projects that have been modified $savedListOfModifiedProject
+    if [ -z "$savedListOfModifiedProject" ]
+    then
+      echo nothing to do: nothing has been modified
+    else
+      setVersionToSnapshotOneByOne $savedListOfModifiedProject
+    fi
 }
 
 
@@ -148,30 +157,15 @@ function rddfsafa() (
 )
 
 
-function common(){
-
-
-echo "Hello world!"
-
-
-}
-
 wait_input() {
-read -s -k '?Press any key to continue.'
-  echo "Press enter to continue: ";
+# read -s -k '?Press any key to continue.'
+  # echo "Press enter to continue: ";
 }
 
 function doIt(){
   echo I am doin it;
   wait_input;
-
-  if [ -z "$1" ]
-  then
-    savedListOfModifiedProject=$(listOfModifiedProjects $modificationProvider)
-  else
-    savedListOfModifiedProject=$1;
-  fi
-
+  savedListOfModifiedProject=$(listOfModifiedProjects $modificationProvider);
   echo here is the list of projects that have been modified $savedListOfModifiedProject
   wait_input;
 
@@ -179,15 +173,11 @@ function doIt(){
   then
     echo nothing to be done: nothing has been modified
   else
-    setVersionToSnapshotOneByOne $savedListOfModifiedProject
-    echo now this is the new modified list of projects: 
-    savedListOfModifiedProject=$(listOfModifiedProjects $modificationProvider)
-    echo $savedListOfModifiedProject
-    echo now this is the new modified list of projects FINISHED; 
+    mvnDiffToSnapshot $savedListOfModifiedProject;
     wait_input;
     
     echo linking modules
-    mvnLinkModules
+    mvnLinkModules ;
     echo linking modules DONE
     wait_input;
 
