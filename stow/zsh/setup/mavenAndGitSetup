@@ -15,8 +15,8 @@ function fromModifiedFilesToParentPomFile() {
 
 function findParentPomOfModifiedFiles(){
   [ -z "$1" ] && echo "Expected command : findParentPomOfModifiedFiles modificationProvider" && return 0
-  modificationProvider=$1;
-  $modificationProvider | awk -v pwd=$(pwd)/ '{print pwd$1}' | fromModifiedFilesToParentPomFile | sort | uniq
+  localModificationProvider=$1;
+  $localModificationProvider | awk -v pwd=$(pwd)/ '{print pwd$1}' | fromModifiedFilesToParentPomFile | sort | uniq
 }
 
 function fromPomFileToProject(){
@@ -37,8 +37,8 @@ function fromPomFileToProject(){
 
 function listOfModifiedProjects(){
   [ -z "$1" ] && echo "Expected command : listOfModifiedProjects modificationProvider" && return 0
-  modificationProvider=$1;
-  findParentPomOfModifiedFiles $modificationProvider | fromPomFileToProject | tr '\n' ','
+  localModificationProvider=$1;
+  findParentPomOfModifiedFiles $localModificationProvider | fromPomFileToProject | tr '\n' ','
 }
 
 myMavenSetVersionPlugin='org.codehaus.mojo:versions-maven-plugin:2.10.0:set'
