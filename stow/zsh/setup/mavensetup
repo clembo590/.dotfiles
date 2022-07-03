@@ -35,9 +35,14 @@ mvnChangedModules(){
 }
 
 mvnDiffOnly(){
-  allmoduleschanged=$(listOfModifiedProjects gitListNamesOfAllModifiedFiles)
-  echo "Changed modules are : `echo $allmoduleschanged`"
-  mvn clean install -amd -pl $allmoduleschanged 
+  allmoduleschanged=$(listOfModifiedProjects $modificationProvider);
+  echo here is the list of projects that have been modified $allmoduleschanged
+  if [ -z "$allmoduleschanged" ]
+  then
+    echo nothing to do: nothing has been modified
+  else
+    mvn clean install -amd -pl $allmoduleschanged 
+  fi
 }
 
 
