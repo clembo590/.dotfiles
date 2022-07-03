@@ -156,52 +156,49 @@ echo "Hello world!"
 
 }
 
+wait_input() {
+read -s -k '?Press any key to continue.'
+  echo "Press enter to continue: ";
+}
+
 function doIt(){
-  echo begin
+  echo I am doin it;
+  wait_input;
 
   if [ -z "$1" ]
   then
-    savedListOfModifiedProject=$(listOfModifiedProjects)
+    savedListOfModifiedProject=$(listOfModifiedProjects $modificationProvider)
   else
     savedListOfModifiedProject=$1;
   fi
 
   echo here is the list of projects that have been modified $savedListOfModifiedProject
+  wait_input;
 
   if [ -z "$savedListOfModifiedProject" ]
   then
-    echo nothing to do: nothing has been modified
+    echo nothing to be done: nothing has been modified
   else
     setVersionToSnapshotOneByOne $savedListOfModifiedProject
-    echo prior to update we are building libraries modified by the commit and the one modified the by setVersionToSnapshotOneByOne
-    savedListOfModifiedProject=$(listOfModifiedProjects)
+    echo now this is the new modified list of projects: 
+    savedListOfModifiedProject=$(listOfModifiedProjects $modificationProvider)
     echo $savedListOfModifiedProject
-    mvn --quiet --batch-mode --projects $savedListOfModifiedProject clean install -DUT.skip=true -DIT.skip=true
-    echo prior to update we are building libraries modified by the commit and the one modified the by setVersionToSnapshotOneByOne DONE
+    echo now this is the new modified list of projects FINISHED; 
+    wait_input;
     
-    echo updating example versions
-    mvnUpdateExampleVersions
-    echo updating example versions DONE
-    newListOfModifiedProject=$(listOfModifiedProjects)
+    echo linking modules
+    mvnLinkModules
+    echo linking modules DONE
+    wait_input;
+
+    newListOfModifiedProject=$(listOfModifiedProjects $modificationProvider)
     if [[ $newListOfModifiedProject != $savedListOfModifiedProject ]]
     then
       echo modif FIRST : $savedListOfModifiedProject  ------------- $newListOfModifiedProject
+      wait_input
       doIt
     else
-      echo building only the librairies without executing any tests
-      mvn --quiet --batch-mode --projects $savedListOfModifiedProject clean install -DUT.skip=true -DIT.skip=true
-      mvnUpdateExampleVersions
-      newListOfModifiedProject2=$(listOfModifiedProjects)
-      if [[ $newListOfModifiedProject2 != $savedListOfModifiedProject ]]
-      then
-        echo modif SECOND : $savedListOfModifiedProject  ------------- $newListOfModifiedProject2
-        doIt
-      else
-        echo BUILDING THE WHOLE THING TO FINISH $newListOfModifiedProject2
-        docker kill $(docker ps -q)
-        docker rm $(docker ps -a -q)
-        mvn  --quiet --batch-mode --projects $newListOfModifiedProject2  clean install -DUT.skip=true -DIT.skip=true  && myGitCommit 'set version to snapshot'
-      fi
+      echo everything has been set to snapshot sucessfully;
     fi
   fi
 }
