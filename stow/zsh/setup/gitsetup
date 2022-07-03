@@ -295,26 +295,7 @@ removeDuplicateEmptyLinesFromModifiedFiles(){
 
 
 mvnLinkModules(){
-    mvnResolveArtificat(){
-        version=$(mvn --file $1 --quiet --batch-mode -DforceStdout help:evaluate -Dexpression='project.version'); 
-        groupArtifact=$(mvn --file $1 --quiet --batch-mode -DforceStdout help:evaluate -Dexpression='project.groupId}:${project.artifactId'); 
-        echo updating all pom file that 'reference' $groupArtifact:$version
-        mvn --quiet --batch-mode org.codehaus.mojo:versions-maven-plugin:2.8.1:use-dep-version -DallowSnapshots=true -DgenerateBackupPoms=false -DprocessParent=true -DexcludeReactor=false -DdepVersion=$version -DforceVersion=true -Dincludes=$groupArtifact
-        echo updating all pom file that 'reference' $groupArtifact:$version DONE
-    }
-    mnvUpdateModules(){
-        find * -name pom.xml | while read data; do
-        {
-            mvnResolveArtificat $data;
-        } & 
-        done
-        wait
-    }
-    mvnUpdateAllParentSections(){
-         mvn -N  -DUT.skip=true -DIT.skip=true org.codehaus.mojo:versions-maven-plugin:2.8.1:update-child-modules -DprocessAllModules=true -DgenerateBackupPoms=false
-    }
-    mvnUpdateAllParentSections;
-    mnvUpdateModules;
+    mvnd -N org.codehaus.mojo:versions-maven-plugin:2.10.0-clem:link-modules-and-dependencies -DgenerateBackupPoms=false;
 }
 
 
