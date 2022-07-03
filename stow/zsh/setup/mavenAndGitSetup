@@ -68,7 +68,7 @@ function mvnSetVersionToSnapshotIfNotInSnapShot(){
   fi
 }
 
-function setVersionToSnapshotOneByOne(){
+function updateVersionOneByOne(){
     savedIFS=$IFS
     IFS=','     # hyphen (-) is set as delimiter
     read -rA projectList <<< "$1"   # str is read into an array as tokens separated by IFS
@@ -144,7 +144,7 @@ function mvnDiffToSnapshot(){
     then
       echo nothing to do: nothing has been modified
     else
-      setVersionToSnapshotOneByOne $savedListOfModifiedProject
+      updateVersionOneByOne $savedListOfModifiedProject
     fi
 }
 
