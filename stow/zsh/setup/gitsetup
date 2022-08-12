@@ -23,7 +23,7 @@ function gitListNamesOfFilesModifiedSinceCreationOfCurrentBranch(){
   then
       return 0;
   else
-      echo $listOfCommits | xargs git show --pretty="" --name-only | sort | uniq ;
+      echo $listOfCommits | xargs git show --pretty="" --name-only --no-renames | sort | uniq ;
   fi
 }
 

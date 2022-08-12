@@ -1,3 +1,5 @@
+alias mp="listOfModifiedProjects $modificationProvider";
+
 function fromModifiedFilesToParentPomFile() {
   while read myFile; do {
     myFile=$(toExistingFile $myFile)
