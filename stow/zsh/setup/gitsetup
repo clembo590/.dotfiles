@@ -291,7 +291,7 @@ removeDuplicateEmptyLinesFromFiles(){
 }
 
 removeDuplicateEmptyLinesFromModifiedFiles(){
-    gitListNamesOfAllModifiedFiles | filterDeletedFiles | xargs sed -i '' '$!N; /^\(.*\)\n\1$/!P; D'
+    $modificationProvider | filterDeletedFiles | xargs sed -i '' '$!N; /^\(.*\)\n\1$/!P; D'
 }
 
 
