@@ -38,12 +38,12 @@ mvnChangedModules(){
 
 mvnDiffOnly(){
   allmoduleschanged=$(listOfModifiedProjects $modificationProvider);
-  echo here is the list of projects that have been modified $allmoduleschanged
+  echo ONLY THESE PROJECTS WILL BE BUILD $allmoduleschanged
   if [ -z "$allmoduleschanged" ]
   then
     echo nothing to do: nothing has been modified
   else
-    mvn clean install -amd -pl $allmoduleschanged $@
+    mvn clean install -pl $allmoduleschanged $@
   fi
 }
 

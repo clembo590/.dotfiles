@@ -104,6 +104,14 @@ filterDeletedFiles(){
   done
 }
 
+filterInfraFile(){
+  while read file; do
+    if [[ $file != infra/* ]] then
+        echo $file
+    fi
+  done
+}
+
 myGitCommit(){
     if [ -z "$1" ]
       then

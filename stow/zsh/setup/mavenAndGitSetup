@@ -119,6 +119,8 @@ function DisplayHelp()
 
 export modificationProvider=gitListNamesOfAllModifiedFiles;
 export toSnapshot=true;
+export excludeInfra=true;
+export temp=gitListNamesOfAllModifiedFiles;
 
 function switchModificationProvider(){
   while getopts ":abchr:" option; do
@@ -128,22 +130,41 @@ function switchModificationProvider(){
           return 0;;
         a) # all changes
           echo gitListNamesOfAllModifiedFiles;
-          export modificationProvider=gitListNamesOfAllModifiedFiles;
+          temp=gitListNamesOfAllModifiedFiles;
           ;;
         b) # modified changes of branch (commited only)
           echo gitListNamesOfFilesModifiedSinceCreationOfCurrentBranch;
-          export modificationProvider=gitListNamesOfFilesModifiedSinceCreationOfCurrentBranch;
+          temp=gitListNamesOfFilesModifiedSinceCreationOfCurrentBranch;
           ;;
         c) # current changes (not commited)
           echo gitListNamesOfFilesNotYetCommited;
-          export modificationProvider=gitListNamesOfFilesNotYetCommited;
+          temp=gitListNamesOfFilesNotYetCommited;
           ;;
         \?) # Invalid option
             echo "Error: Invalid option"
             return 1;;
     esac
   done
+
+  function withFilter(){
+    $temp|filterInfraFile
+  }
+
+  function withoutFilter(){
+    $temp
+  }
+
+  if [[ "$excludeInfra" = true ]]; then
+    modificationProvider=withFilter;
+  else
+    modificationProvider=withoutFilter;
+  fi
+
 }
+
+
+switchModificationProvider -a;
+
 
 
 
