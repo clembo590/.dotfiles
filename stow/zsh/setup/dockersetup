@@ -13,6 +13,9 @@ alias dockerRmAllImages='docker rmi -f $(docker images -a -q)'
 alias dockerDisk='docker run --rm -it -v /:/docker alpine:edge $@'
 alias dockerExec='(){docker exec -it $1 sh;}'
 
+# now you go see what is in the volumes using :
+# ls -lah /var/lib/docker/volumes/
+alias dockerMacVolumes='docker run -it --privileged --pid=host debian nsenter -t 1 -m -u -n -i sh'
 
 dockerLog() {
    docker logs -f $@
