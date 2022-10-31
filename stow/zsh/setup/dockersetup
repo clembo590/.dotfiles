@@ -20,3 +20,6 @@ alias dockerMacVolumes='docker run -it --privileged --pid=host debian nsenter -t
 dockerLog() {
    docker logs -f $@
 }
+
+export DOCKER_BUILDKIT=0                  
+export COMPOSE_DOCKER_CLI_BUILD=0
