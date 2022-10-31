@@ -4,7 +4,8 @@ alias gitdUntrackAllUnTrackedFiles="git ls-files -v | grep '^[a-z]' | cut -c 3- 
 alias gitUntrackAllfilesUnderCurrentFolder="git ls-files -z | xargs -0 git update-index --assume-unchanged"
 alias gitRefreshPrune="git remote prune origin"
 alias gitSubInitAllModules="git submodule update --init --recursive --jobs 50"
-alias gitSubUpdateAllDetachedToLatest="git submodule update --recursive --remote"
+alias gitSubUpdateAllDetachedToLatest="git submodule update --recursive --remote --jobs 50"
+alias gitSubInitAllAndUpdateAllDetachedToLatest="git submodule update --init --recursive --remote --jobs 50"
 alias gitShowLog="git log --format=fuller "
 alias gitCancel="git clean -d -f; git reset --hard;"
 alias gitForceDeleteAllLocalBranches="git branch | grep -v 'KEEP' | xargs git branch -D"
@@ -161,8 +162,10 @@ gitSubRmOne(){
 
 gitSubAddOne(){
     [ -z "$1" ] && echo "Expected command : gitSubAdd REPOSIORY" && exit 0
-    git submodule update --init --recursive $1 ; # this is to get the code that corresponds to the given commit.
-    git submodule update --recursive --remote  $1 ; # this corresponds to "a kind of rebase on origin/main" BUT WE stay in detached mode.
+    # git submodule update --init --recursive $1 ; # this is to get the code that corresponds to the given commit.
+    # git submodule update --recursive --remote  $1 ; # this corresponds to "a kind of rebase on origin/main" BUT WE stay in detached mode.
+    git submodule update --init --recursive --remote  $1 ; # this does both the above.
+
 
     gitSubCheckoutOne $@ 
     git update-index --assume-unchanged $1
@@ -194,16 +197,14 @@ gitSubClear(){
 }
 
 gitSubAddAll(){
-    gitSubInitAllModules;
-
-    echo init and update all modules finished;
-
     gitListAllSubModules | while read data; do
         {
-            gitSubCheckoutOne $data $@ 
+             git submodule update --init --recursive --remote $data;
+             gitSubCheckoutOne $data $@ ;
         } &
     done
     wait
+
     gitListAllSubModules | xargs git update-index --assume-unchanged
 
 }
