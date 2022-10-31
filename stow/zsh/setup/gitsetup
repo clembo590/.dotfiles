@@ -18,7 +18,7 @@ alias gitSetUpstream='git branch --set-upstream-to=$(_gitFindDefaultRemote)/$(gi
 #list all files that have been modified since the creation of the current branch
 #the output is the relative to git root folder (nothing to do with current folder)
 function gitListNamesOfFilesModifiedSinceCreationOfCurrentBranch(){
-  local listOfCommits=$(git log  --format=format:"%H"  --all --not $(git rev-list --no-walk     --exclude=HEAD     --exclude=refs/heads/$(gitCurrentBranch) --exclude=refs/remotes/origin/$(gitCurrentBranch)     --all))
+  local listOfCommits=$(git log  --format=format:"%H"  --all --not $(git rev-list --no-walk     --exclude=HEAD   --exclude=refs/stash     --exclude=refs/heads/$(gitCurrentBranch) --exclude=refs/remotes/origin/$(gitCurrentBranch)     --all))
 
   if [ -z "$listOfCommits" ]
   then
