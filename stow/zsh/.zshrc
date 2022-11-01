@@ -41,6 +41,7 @@ export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/b
 
 alias beyondCompareReset="rm Library/Application\ Support/Beyond\ Compare/registry.dat;"
 
+setopt NO_EXTENDED_GLOB
 
 source $MONO_PREFIX/javasetup
 source $MONO_PREFIX/mavensetup
