@@ -13,6 +13,7 @@ alias gitSafeDeleteAllLocalBranches="git branch | grep -v 'KEEP' | xargs git bra
 alias gitCurrentBranch="git branch --show-current"
 alias gitOrphanEmptyBranch='(){git checkout --orphan $1; git rm -rf . ;rm -rf ./*; echo "#Title of Readme" > README.md ;git add README.md ; git commit -am "Initial Commit" ;}'
 alias gitSetUpstream='git branch --set-upstream-to=$(_gitFindDefaultRemote)/$(git branch --show-current)'
+alias sshagent='eval "$(ssh-agent -s)"'
 
 
 #list all files that have been modified since the creation of the current branch
