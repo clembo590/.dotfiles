@@ -18,7 +18,8 @@ alias gitSetUpstream='git branch --set-upstream-to=$(_gitFindDefaultRemote)/$(gi
 #list all files that have been modified since the creation of the current branch
 #the output is the relative to git root folder (nothing to do with current folder)
 function gitListNamesOfFilesModifiedSinceCreationOfCurrentBranch(){
-  local listOfCommits=$(git log $(git rev-parse $(git rev-list --exclude-first-parent-only ^$(_gitFindOriginMain) $(gitCurrentBranch)| tail -1)^ )..HEAD  --format=format:"%H"   )
+#   local listOfCommits=$(git log $(git rev-parse $(git rev-list --exclude-first-parent-only ^$(_gitFindOriginMain) $(gitCurrentBranch)| tail -1)^ )..HEAD  --format=format:"%H"   )
+  local listOfCommits=$(gitListOfCommitsSinceCreationOfCurrentBranch)
 
   if [ -z "$listOfCommits" ]
   then
@@ -26,6 +27,16 @@ function gitListNamesOfFilesModifiedSinceCreationOfCurrentBranch(){
   else
       echo $listOfCommits | xargs git show --pretty="" --name-only --no-renames | sort | uniq ;
   fi
+}
+
+function gitListOfCommitsSinceCreationOfCurrentBranch(){
+    git log  --format=format:"%H"  --all --not \
+                            $(git rev-list --no-walk \
+                                    --exclude=HEAD   \
+                                    --exclude=refs/heads/$(gitCurrentBranch) \
+                                    --exclude=refs/remotes/origin/$(gitCurrentBranch) \
+                                    --exclude=refs/remotes/origin/HEAD \
+                                    --all)
 }
 
 #list all modified files in the git repo
