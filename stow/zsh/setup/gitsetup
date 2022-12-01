@@ -19,7 +19,6 @@ alias sshagent='eval "$(ssh-agent -s)"'
 #list all files that have been modified since the creation of the current branch
 #the output is the relative to git root folder (nothing to do with current folder)
 function gitListNamesOfFilesModifiedSinceCreationOfCurrentBranch(){
-#   local listOfCommits=$(git log $(git rev-parse $(git rev-list --exclude-first-parent-only ^$(_gitFindOriginMain) $(gitCurrentBranch)| tail -1)^ )..HEAD  --format=format:"%H"   )
   local listOfCommits=$(gitListOfCommitsSinceCreationOfCurrentBranch)
 
   if [ -z "$listOfCommits" ]
@@ -31,6 +30,8 @@ function gitListNamesOfFilesModifiedSinceCreationOfCurrentBranch(){
 }
 
 function gitListOfCommitsSinceCreationOfCurrentBranch(){
+    # git log $(git rev-parse $(git rev-list --exclude-first-parent-only ^$(_gitFindOriginMain) $(gitCurrentBranch)| tail -1)^ )..HEAD  --format=format:"%H" 
+
     git log  --format=format:"%H"  --all --not \
                             $(git rev-list --no-walk \
                                     --exclude=HEAD   \
