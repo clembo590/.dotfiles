@@ -43,8 +43,66 @@ mvnDiffOnly(){
   then
     echo nothing to do: nothing has been modified
   else
-    mvn clean install -pl $allmoduleschanged $@
+    mvnd clean install -pl $allmoduleschanged $@
   fi
+}
+
+myMvnWithProfiles(){
+  mvnProcess org.apache.maven.plugins:maven-help-plugin:3.2.0:active-profiles $@
+}
+
+export mvnType="normal";
+
+mvnProcess(){
+  if [[ "$mvnType" == "normal" ]]; then
+    mvn $@ ;
+  elif [[ "$mvnType" == "docker" ]]; then
+    mvnDocker $@ ;
+  elif [[ "$mvnType" == "daemon" ]]; then
+    mvnd $@ ;
+  else
+    return 1;
+  fi
+}
+
+
+function DisplayHelpForMvn()
+{
+   echo "this function can be called with the following options"
+   echo
+   echo "Syntax: switchMvn [-a|n|o|h]"
+   echo "options:"
+   echo "a     daemon"
+   echo "n     normal"
+   echo "o     docker"
+   echo "h     Print this Help."
+   echo
+}
+
+
+function switchMvn(){
+  while getopts ":anohr:" option; do
+    case $option in
+        h) # display Help
+          DisplayHelpForMvn;
+          return 0;;
+        a) # daemon
+          mvnType="daemon";
+          echo $mvnType;
+          ;;
+        n) # normal
+          mvnType="normal";
+          echo $mvnType;
+          ;;
+        o) # docker
+          mvnType="docker";
+          echo $mvnType;
+          ;;
+        \?) # Invalid option
+            echo "Error: Invalid option"
+            return 1;;
+    esac
+  done
 }
 
 

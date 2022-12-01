@@ -104,11 +104,11 @@ function updateVersionOneByOne(){
     IFS=$savedIFS     # reset to default value after usage
 }
 
-function DisplayHelp()
+function DisplayHelpForModificationProvider()
 {
    echo "this function can be called with the following options"
    echo
-   echo "Syntax: switchModificationProvider [-b|c|h|r]"
+   echo "Syntax: switchModificationProvider [-a|b|c|h]"
    echo "options:"
    echo "a     all changes (b+c)"
    echo "b     modied changes of branch (commited only) "
@@ -126,7 +126,7 @@ function switchModificationProvider(){
   while getopts ":abchr:" option; do
     case $option in
         h) # display Help
-          DisplayHelp;
+          DisplayHelpForModificationProvider;
           return 0;;
         a) # all changes
           echo gitListNamesOfAllModifiedFiles;
