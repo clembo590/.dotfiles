@@ -39,7 +39,7 @@ export BUNDLER_EDITOR="'/Applications/Sublime Text.app/Contents/SharedSupport/bi
 export PATH="/usr/local/opt/awscli@1/bin:$PATH"
 export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
 
-alias beyondCompareReset="rm Library/Application\ Support/Beyond\ Compare/registry.dat;"
+alias beyondCompareReset="rm ~/Library/Application\ Support/Beyond\ Compare/registry.dat;"
 
 setopt NO_EXTENDED_GLOB
 
