@@ -60,7 +60,7 @@ function listOfModifiedProjects(){
 myMavenSetVersionPlugin='org.codehaus.mojo:versions-maven-plugin:2.10.0:set'
 
 function mvnVersionPluginSet(){
-  $(mvnd --quiet --batch-mode $myMavenSetVersionPlugin -DgenerateBackupPoms=false -DupdateMatchingVersions=false -DprocessFromLocalAggregationRoot=false $@;)
+  $(mvnProcess --quiet --batch-mode $myMavenSetVersionPlugin -DgenerateBackupPoms=false -DupdateMatchingVersions=false -DprocessFromLocalAggregationRoot=false $@;)
 }
 
 function mvnSetSingleProjectVersion(){
@@ -77,7 +77,8 @@ function mvnSetSingleProjectVersionToSnapshot(){
 }
 
 function mvnSetVersionToSnapshotIfNotInSnapShot(){
-  artifactPackingVersion=$(mvnd --quiet --batch-mode $@ -DforceStdout help:evaluate -Dexpression='project.groupId}:${project.artifactId}:${project.packaging}:${project.version'  )
+  artifactPackingVersion=$(mvnProcess --quiet --batch-mode $@ -DforceStdout help:evaluate -Dexpression='project.groupId}:${project.artifactId}:${project.packaging}:${project.version'  )
+  echo "whe found it :" $artifactPackingVersion;
   if [[ $artifactPackingVersion != *SNAPSHOT ]]
   then
     mvnSetSingleProjectVersionToSnapshot $@

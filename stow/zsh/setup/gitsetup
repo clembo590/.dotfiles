@@ -318,7 +318,7 @@ removeDuplicateEmptyLinesFromModifiedFiles(){
 
 
 mvnLinkModules(){
-    mvnd -N org.codehaus.mojo:versions-maven-plugin:2.10.0-clem:link-modules-and-dependencies -DgenerateBackupPoms=false;
+    mvnProcess -N org.codehaus.mojo:versions-maven-plugin:2.10.0-clem:link-modules-and-dependencies -DgenerateBackupPoms=false;
 }
 
 
