@@ -53,6 +53,9 @@ source $MONO_PREFIX/nvmsetup
 source $MONO_PREFIX/mavenAndGitSetup
 source $MONO_PREFIX/various
 
+# Load Angular CLI autocompletion.
+source <(ng completion script)
+
 #this is to introduce a small delay before "exectution of a shortcut" (to 'wait for another key stroke')
 KEYTIMEOUT=400
 
