@@ -8,6 +8,7 @@ alias mvnUpdateAllVersions='mvnProcess org.codehaus.mojo:versions-maven-plugin:2
 alias mvnUpdateExampleVersions='mvnProcess org.codehaus.mojo:versions-maven-plugin:2.8.1:update-properties -DallowSnapshots=true -DgenerateBackupPoms=false -DprocessParent=true -DexcludeReactor=false -Dincludes=com.example\*:\*; mvnProcess org.codehaus.mojo:versions-maven-plugin:2.8.1:use-latest-versions -DallowSnapshots=true -DgenerateBackupPoms=false -DprocessParent=true -DexcludeReactor=false -Dincludes=com.example\*:\*'
 alias mvnListTasks="mvnProcess fr.jcgay.maven.plugins:buildplan-maven-plugin:list"
 alias mvnListProjects="mvnProcess -q exec:exec -Dexec.executable='pwd'"
+alias mvnListProjects2="mvn help:describe -Dcmd=help:describe"
 alias mvnSetVersionToRelease="mvnSetVersion -DremoveSnapshot -DgenerateBackupPoms=false"
 alias mvnSetVersionToSnapshot="mvnSetVersion -DnextSnapshot=true -DgenerateBackupPoms=false"
 alias mvnSortPom="mvnProcess com.github.ekryd.sortpom:sortpom-maven-plugin:3.0.0:sort -Dsort.createBackupFile=false"
@@ -50,7 +51,7 @@ myMvnWithProfiles(){
   mvnProcess org.apache.maven.plugins:maven-help-plugin:3.2.0:active-profiles $@
 }
 
-export mvnType="daemon";
+export mvnType="normal";
 
 mvnProcess(){
   if [[ "$mvnType" == "normal" ]]; then
