@@ -17,7 +17,7 @@ stow_dotfiles() {
   rm -f $HOME/.zsh_history;
 
 
-  local dotfiles="git zsh"
+  local dotfiles="git zsh ssh"
   info "Stowing: $dotfiles"
   stow -d stow --target $HOME $dotfiles
 }
