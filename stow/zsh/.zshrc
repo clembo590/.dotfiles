@@ -12,6 +12,9 @@ plugins=(gitfast last-working-dir common-aliases sublime zsh-syntax-highlighting
 
 # Prevent Homebrew from reporting - https://github.com/Homebrew/brew/blob/master/share/doc/homebrew/Analytics.md
 export HOMEBREW_NO_ANALYTICS=1
+brewNoUpdate(){
+    HOMEBREW_NO_AUTO_UPDATE=1 brew install $@
+}
 
 # Actually load Oh-My-Zsh
 source "${ZSH}/oh-my-zsh.sh"
