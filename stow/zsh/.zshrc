@@ -24,7 +24,7 @@ unalias rm # No interactive rm by default (brought by plugins/common-aliases)
 export PATH="${HOME}/.rbenv/bin:${PATH}"
 type -a rbenv > /dev/null && eval "$(rbenv init -)"
 
-export PATH="$(pyenv root)/shims:${PATH}"
+
 
 # Rails and Ruby uses the local `bin` folder to store binstubs.
 # So instead of running `bin/rails` like the doc says, just run `rails`
@@ -46,6 +46,13 @@ alias beyondCompareReset="rm ~/Library/Application\ Support/Beyond\ Compare/regi
 
 setopt NO_EXTENDED_GLOB
 
+export PATH="/opt/homebrew/bin:$PATH"
+export PATH="$HOME/.jenv/bin:$PATH"
+export PATH="$(pyenv root)/shims:${PATH}"
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"
+
+
 source $MONO_PREFIX/javasetup
 source $MONO_PREFIX/mavensetup
 source $MONO_PREFIX/npmsetup
@@ -57,7 +64,7 @@ source $MONO_PREFIX/mavenAndGitSetup
 source $MONO_PREFIX/various
 
 # Load Angular CLI autocompletion.
-source <(ng completion script)
+#source <(ng completion script)
 
 #this is to introduce a small delay before "exectution of a shortcut" (to 'wait for another key stroke')
 KEYTIMEOUT=400
@@ -98,8 +105,7 @@ ZSH_COMMAND_TIME_EXCLUDE=(vim mcedit)
 
 
 
-# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-export PATH="$PATH:$HOME/.rvm/bin"
+
 
 
 eval $(thefuck --alias)
