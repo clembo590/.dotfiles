@@ -54,8 +54,9 @@
   mergeoptions = --no-edit
 
 [user]
-	email = clembo590@gmail.com
-	name = clembo590
+	email = clement.brice.alexis.boret@dnb.no
+	name = clement
+#	signingkey = 4F7CC96025216DE2
 
 [include]
     path = ~/.gitconfig_local
@@ -79,3 +80,6 @@
 
 [init]
 	defaultBranch = main
+
+[commit]
+#	gpgsign = true
