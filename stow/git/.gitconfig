@@ -14,7 +14,7 @@
     UseHttpPath = true
 
 [core]
-  hooksPath = ~/.dotfiles/my_git_hooks
+  # hooksPath = ~/.dotfiles/my_git_hooks
   pager = less -FRSX
 	editor = code --wait
 	excludesfile = ~/.gitignore
