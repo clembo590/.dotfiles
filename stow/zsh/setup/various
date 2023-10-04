@@ -1,4 +1,4 @@
 
 alias savePlist='mkdir -p ~/code/2delete; rm -rf ~/code/2delete/old; mv ~/code/2delete/new ~/code/2delete/old; cp -R ~/Library/Preferences ~/code/2delete/tempPref; find ~/code/2delete/tempPref  -type f -iname  "*.plist" | xargs  plutil -convert xml1 ; mv ~/code/2delete/tempPref ~/code/2delete/new ; bcomp ~/code/2delete/old  ~/code/2delete/new;'
 alias showTemperature='sudo powermetrics --samplers smc |grep -e "CPU die temperature"  -e "Fan"'
-alias idea='/Applications/IntelliJ\ IDEA.app/Contents/MacOS/idea'
+alias idea='open -a "IntelliJ IDEA.app"'
