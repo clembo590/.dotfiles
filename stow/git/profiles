@@ -1,0 +1,23 @@
+[profile dev]
+sso_session = dp-dev
+sso_account_id = 021491256793
+sso_role_name = Core-Dev-EngineerAdminRole
+region = eu-west-1
+output = json
+
+[sso-session dp-dev]
+sso_start_url = https://d-9367049f98.awsapps.com/start#
+sso_region = eu-west-1
+sso_registration_scopes = sso:account:access
+
+[profile dp-integration-sit]
+sso_session = dp-integration-sit
+sso_account_id = 758083315252
+sso_role_name = Core-Test-EngineerAdminRole
+region = eu-west-1
+output = json
+
+[sso-session dp-integration-sit]
+sso_start_url = https://d-9367049f98.awsapps.com/start#
+sso_region = eu-west-1
+sso_registration_scopes = sso:account:access
