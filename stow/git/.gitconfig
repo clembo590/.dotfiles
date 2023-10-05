@@ -10,7 +10,7 @@
   remote = yellow
 
 [credential]
-    helper = !aws --profile springconfig-backoffice codecommit credential-helper $@
+#    helper = !aws --profile springconfig-backoffice codecommit credential-helper $@
     UseHttpPath = true
 
 [core]
