@@ -62,6 +62,7 @@ source $MONO_PREFIX/gitsetup
 source $MONO_PREFIX/nvmsetup
 source $MONO_PREFIX/mavenAndGitSetup
 source $MONO_PREFIX/various
+source $MONO_PREFIX/awsSetup
 
 # Load Angular CLI autocompletion.
 #source <(ng completion script)
