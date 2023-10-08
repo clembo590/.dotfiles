@@ -110,4 +110,4 @@ ZSH_COMMAND_TIME_EXCLUDE=(vim mcedit)
 
 
 eval $(thefuck --alias)
-
+export JAVA_HOME="$HOME/.jenv/versions/17.0"
