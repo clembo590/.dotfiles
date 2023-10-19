@@ -1,6 +1,7 @@
 alias awsdev='
 export AWS_PROFILE=dev;
 echo "AWS_PROFILE is now ${AWS_PROFILE}";
+aws sso login;
 aws sts get-caller-identity;
 aws eks update-kubeconfig --name dev-eks;
 kubectl config use-context arn:aws:eks:eu-west-1:021491256793:cluster/dev-eks
@@ -9,6 +10,7 @@ kubectl config use-context arn:aws:eks:eu-west-1:021491256793:cluster/dev-eks
 alias awssit='
 export AWS_PROFILE=dp-integration-sit;
 echo "AWS_PROFILE is now ${AWS_PROFILE}";
+aws sso login;
 aws sts get-caller-identity;
 aws eks update-kubeconfig --name sit-eks;
 kubectl config use-context arn:aws:eks:eu-west-1:758083315252:cluster/sit-eks
@@ -17,6 +19,7 @@ kubectl config use-context arn:aws:eks:eu-west-1:758083315252:cluster/sit-eks
 alias awstest='
 export AWS_PROFILE=dp-uat-test;
 echo "AWS_PROFILE is now ${AWS_PROFILE}";
+aws sso login;
 aws sts get-caller-identity;
 aws eks update-kubeconfig --name uat-eks;
 kubectl config use-context arn:aws:eks:eu-west-1:314837910845:cluster/uat-eks
