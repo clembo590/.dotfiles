@@ -160,11 +160,56 @@ _singleRepoCommit(){
     git commit -m $message 
 }
 
-gitMDRChangeDate(){
-    [ -z "$1" ] && echo "Expected command : gitMDRChangeDate commitId" && exit 0
-    git rebase $1 --exec "git commit --amend --no-edit --date now ; "
-    sleep 1m
+gitMDRChangeDate() {
+    [ -z "$1" ] && echo "Expected command: gitMDRChangeDate commitId" && exit 0
+
+    # Get the list of commits in the range
+    commit_list=$(git rev-list HEAD...$1)
+    number_of_commits=$(echo "$commit_list" | wc -l | tr -d ' ')
+    commit_list=($(git rev-list -n $number_of_commits --topo-order HEAD | tac))
+    echo "Commit list: $commit_list"
+    echo "number of commits $number_of_commits"
+
+    # Set an initial delay
+    delay=$((number_of_commits * 33))
+    echo initial delay $delay
+
+    commitId=${commit_list[1]}
+    echo "found commitId: $commitId"
+
+    for ((index=$number_of_commits+1; index>=1; index--)); do
+        new_date=($(date -v"-${delay}M" "+%Y-%m-%dT%H:%M:%S"))
+        echo $new_date
+        gitMDRChangeDateWithIndex $index $new_date
+        delay=$((delay - 33))
+    done
 }
+
+gitMDRChangeDateWithIndex(){
+    echo "Performing rebase for commit: $1 with new_date $2"
+    commit_list=($(git rev-list -n $1 --topo-order HEAD | tac))
+    echo $commit_list
+    commitId=${commit_list[1]}
+    echo $commitId
+    gitMDRChangeDateSingleRebase $commitId $2
+} 
+
+gitMDRChangeDateSingleRebase(){
+
+    if [ $# -eq 0 ]; then
+        echo "Expected command: gitMDRChangeDateSingleRebase commitId optionalDate" && exit 0
+    elif [ $# -eq 1 ]; then 
+        echo THAT IS WHY...
+        new_date=$(strftime "%Y-%m-%dT%H:%M:%S")
+    fi
+
+    echo here is the new date $new_date here is the commitId: $1
+    git rebase $1 --exec "git commit --amend --no-edit --date $new_date ; "
+}
+
+
+
+
 
 
 gitSubRmOne(){
