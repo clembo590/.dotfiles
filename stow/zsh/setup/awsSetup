@@ -24,3 +24,27 @@ aws sts get-caller-identity;
 aws eks update-kubeconfig --name uat-eks;
 kubectl config use-context arn:aws:eks:eu-west-1:314837910845:cluster/uat-eks
 '
+
+alias ecrlogin='aws ecr get-login-password --region eu-west-1 --profile dev | docker login -u AWS --password-stdin https://364737385840.dkr.ecr.eu-west-1.amazonaws.com'
+
+function dnbBuild(){
+
+    # Save the current directory
+    original_dir=$(pwd)
+
+    # Define a cleanup function
+    cleanup() {
+        cd "$original_dir"
+    }
+
+    # Set up a trap to call the cleanup function on script exit
+    trap cleanup EXIT
+
+    # Change to the desired directory
+    cd infra/docker
+    make build
+    cd "$original_dir"
+    ./gradlew --console=plain dockerBuild
+
+
+}
