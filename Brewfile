@@ -1,4 +1,3 @@
-tap "adoptopenjdk/openjdk"
 tap "graalvm/tap"
 tap "homebrew/bundle"
 tap "homebrew/cask-fonts"
