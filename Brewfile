@@ -100,10 +100,6 @@ brew "nghttp2"
 brew "node"
 # Manage multiple Node.js versions
 brew "nvm"
-# Development kit for the Java programming language
-brew "openjdk@11"
-# Development kit for the Java programming language
-brew "openjdk@17"
 # Object-relational database system
 brew "postgresql@14"
 # Python version management
@@ -185,7 +181,13 @@ cask "sublime-text"
 # JDK from the Eclipse Foundation (Adoptium)
 cask "temurin"
 # JDK from the Eclipse Foundation (Adoptium)
+cask "temurin11"
+# JDK from the Eclipse Foundation (Adoptium)
+cask "temurin17"
+# JDK from the Eclipse Foundation (Adoptium)
 cask "temurin21"
+# JDK from the Eclipse Foundation (Adoptium)
+cask "temurin8"
 # Open-source code editor
 cask "visual-studio-code"
 # Multimedia player
