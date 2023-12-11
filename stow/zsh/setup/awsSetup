@@ -34,6 +34,7 @@ kubectl config use-context arn:aws:eks:eu-west-1:314837910845:cluster/uat-eks
 alias ecrlogin='aws ecr get-login-password --region eu-west-1 --profile dev | docker login -u AWS --password-stdin https://364737385840.dkr.ecr.eu-west-1.amazonaws.com'
 
 function dnbBuild(){
+    updateNexusIpAdress
 
     # Save the current directory
     original_dir=$(pwd)
@@ -54,3 +55,27 @@ function dnbBuild(){
 
 
 }
+
+function updateNexusIpAdress(){
+
+    # Perform nslookup to get the IP address
+    ip_address=$(nslookup nexus.tech.dnb.no | awk '/^Address: / { print $2 }')
+
+    # Check if the IP address is obtained successfully
+    if [ -n "$ip_address" ]; then
+        echo "Updating /etc/hosts with IP address: $ip_address"
+
+        # Remove existing entry if it exists
+        sudo sed -i -e "/nexus\.tech\.dnb\.no/d" /etc/hosts
+
+        # Append the new entry to /etc/hosts
+        echo "$ip_address nexus.tech.dnb.no" | sudo tee -a /etc/hosts > /dev/null
+
+        echo "Entry updated successfully!"
+    else
+        echo "Failed to obtain IP address. Check your network connectivity."
+        exit 0
+    fi
+}
+
+
