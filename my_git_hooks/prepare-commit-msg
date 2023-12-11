@@ -1,19 +1,25 @@
 #!/bin/bash
 
+FILE=$1
 # Define the allowed commit message types
 ALLOWED_TYPES=("feat" "fix" "chore" "docs" "style" "refactor" "test" "perf" "build" "ci" "revert" "wip")
 
 # Get the commit message from the commit file
 commit_message=$(cat "$1")
 
+echo here is the original commit message $commit_message
+
 # Extract the commit type
 commit_type=$(echo "$commit_message" | awk '{print $1}')
+echo here is the commit type $commit_type
 
 # Check if the commit type is allowed
 if [[ ! " ${ALLOWED_TYPES[@]} " =~ " ${commit_type} " ]]; then
     # Prepend "wip:" to the original message
     new_message="wip: $commit_message"
 
+    echo here is the new commit message $new_message
+
     # Overwrite the commit message with the corrected message
-    echo "$new_message" > "$1"
+    echo "$new_message" > $FILE
 fi
