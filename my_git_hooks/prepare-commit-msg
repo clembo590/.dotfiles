@@ -12,7 +12,7 @@ commit_type=$(echo "$commit_message" | awk '{print $1}')
 # Check if the commit type is allowed
 if [[ ! " ${ALLOWED_TYPES[@]} " =~ " ${commit_type} " ]]; then
     # Prepend "wip:" to the original message
-    new_message="wip:$commit_message"
+    new_message="wip: $commit_message"
 
     # Overwrite the commit message with the corrected message
     echo "$new_message" > "$1"
