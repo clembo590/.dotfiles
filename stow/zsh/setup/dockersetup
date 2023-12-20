@@ -16,6 +16,7 @@ alias dockerExec='(){docker exec -it $1 sh;}'
 # now you go see what is in the volumes using :
 # ls -lah /var/lib/docker/volumes/
 alias dockerMacVolumes='docker run -it --privileged --pid=host debian nsenter -t 1 -m -u -n -i sh'
+alias dockerCleanCache='docker builder prune --all --force'
 
 dockerLog() {
    docker logs -f $@
