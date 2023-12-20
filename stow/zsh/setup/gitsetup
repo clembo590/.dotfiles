@@ -14,7 +14,7 @@ alias gitCurrentBranch="git branch --show-current"
 alias gitOrphanEmptyBranch='(){git checkout --orphan $1; git rm -rf . ;rm -rf ./*; echo "#Title of Readme" > README.md ;git add README.md ; git commit -am "Initial Commit" ;}'
 alias gitSetUpstream='git branch --set-upstream-to=$(_gitFindDefaultRemote)/$(git branch --show-current)'
 alias sshagent='eval "$(ssh-agent -s)"'
-alias gitForcePush="confirm && git push --force -u origin $(gitCurrentBranch)"
+alias gitForcePush='confirm && git push --force -u origin $(gitCurrentBranch)'
 
 
 function confirm(){
