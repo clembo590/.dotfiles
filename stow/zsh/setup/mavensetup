@@ -43,7 +43,7 @@ mvnDiffOnly(){
   then
     echo nothing to do: nothing has been modified
   else
-    mvnProcess clean install -pl $allmoduleschanged $@
+    mvnProcess -pl $allmoduleschanged $@
   fi
 }
 
