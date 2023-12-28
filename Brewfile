@@ -128,6 +128,8 @@ brew "watch"
 brew "wget"
 # Linter for YAML files
 brew "yamllint"
+# Process YAML, JSON, XML, CSV and properties documents from the CLI
+brew "yq"
 # General-purpose lossless data-compression library
 brew "zlib"
 # Maven Daemon
