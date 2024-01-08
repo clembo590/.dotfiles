@@ -1,1 +1,2 @@
 alias gd='./gradlew --console=plain '
+alias gdnp="echo -Dorg.gradle.parallel=false"
