@@ -23,12 +23,20 @@ aws eks update-kubeconfig --name sit-eks;
 kubectl config use-context arn:aws:eks:eu-west-1:758083315252:cluster/sit-eks
 '
 
-alias awstest='
+alias awsuat='
 export AWS_PROFILE=dp-uat-test;
 aws sso login;
 aws sts get-caller-identity --query Arn | xargs echo ;
 aws eks update-kubeconfig --name uat-eks;
 kubectl config use-context arn:aws:eks:eu-west-1:314837910845:cluster/uat-eks
+'
+
+alias awsprod='
+export AWS_PROFILE=prod;
+aws sso login;
+aws sts get-caller-identity --query Arn | xargs echo ;
+aws eks update-kubeconfig --name prod-eks;
+kubectl config use-context arn:aws:eks:eu-west-1:300947127255:cluster/prod-eks
 '
 
 alias ecrlogin='aws ecr get-login-password --region eu-west-1 --profile dev | docker login -u AWS --password-stdin https://364737385840.dkr.ecr.eu-west-1.amazonaws.com'
