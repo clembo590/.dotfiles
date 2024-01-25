@@ -81,7 +81,3 @@
 	defaultBranch = main
 
 
-[url "https://golang:S6ZTF_Tkd8XMZarY3yze@gitlab.tech.dnb.no:443/"]
-	insteadof = git+ssh://gitlab.tech.dnb.no/
-[url "https://golang:S6ZTF_Tkd8XMZarY3yze@gitlab.tech.dnb.no/"]
-	insteadof = ssh://gitlab.tech.dnb.no
