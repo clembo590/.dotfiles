@@ -1,3 +1,3 @@
-alias gd='./gradlew --console=plain '
+alias gd='./gradlew --console=plain --no-daemon --profile '
 alias gdnp="echo -Dorg.gradle.parallel=false"
 alias kfmt='gd ktlintFormat'
