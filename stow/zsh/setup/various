@@ -3,3 +3,16 @@ alias savePlist='mkdir -p ~/code/2delete; rm -rf ~/code/2delete/old; mv ~/code/2
 alias showTemperature='sudo powermetrics --samplers smc |grep -e "CPU die temperature"  -e "Fan"'
 alias idea='open -a "IntelliJ IDEA.app"'
 alias tfmt='terraform fmt -recursive'
+
+myTouch() {
+  local file_path="$1"
+
+  # Extract directory path from the file path
+  local dir_path="${file_path%/*}"
+
+  # Create the directory path if it doesn't exist
+  mkdir -p "$dir_path"
+
+  # Create the file
+  touch "$file_path"
+}
