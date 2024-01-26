@@ -87,3 +87,6 @@ function updateNexusIpAdress(){
 }
 
 
+
+
+alias dnbe2e='MODULE=end-to-end-tests NAMESPACE=casex SCENARIO=single ENVIRONMENT=dev make job-run'
