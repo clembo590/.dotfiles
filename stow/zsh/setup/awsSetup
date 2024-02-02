@@ -69,6 +69,7 @@ function dnbBuild(){
     cd infra/docker
     make build
     cd "$original_dir"
+    removeNexusIpAdress
     ./gradlew --console=plain dockerBuild
 
 
@@ -95,6 +96,17 @@ function updateNexusIpAdress(){
         exit 0
     fi
 }
+
+function removeNexusIpAdress(){
+        echo "removing /etc/hosts with IP address: $ip_address"
+
+        # Remove existing entry if it exists
+        sudo sed -i -e "/nexus\.tech\.dnb\.no/d" /etc/hosts
+
+        echo "Nexus Ip removed successfully!"
+}
+
+
 
 
 
