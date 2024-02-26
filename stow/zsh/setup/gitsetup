@@ -95,10 +95,12 @@ gitDiffWithOriginMain(){
     git --no-pager diff $(_gitFindOriginMain)...$1
 }
 
+
 gitAutoCommitAndPush(){
-    myGitCommit "auto commit"
+    myGitCommit "wip: auto commit"
     myGitPush
 }
+
 
 gitCommitAndPush(){
     myGitCommit
