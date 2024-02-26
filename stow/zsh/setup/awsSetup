@@ -9,7 +9,9 @@ kubectl config use-context arn:aws:eks:eu-west-1:601902843606:cluster/ab-eks
 
 alias awsdev='
 export AWS_PROFILE=dev;
+echo "AWS_PROFILE=dev";
 aws sso login;
+echo "aws sso login" ;
 aws sts get-caller-identity --query Arn | xargs echo ;
 aws eks update-kubeconfig --name dev-eks;
 kubectl config use-context arn:aws:eks:eu-west-1:021491256793:cluster/dev-eks
