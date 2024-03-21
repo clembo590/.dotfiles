@@ -1,4 +1,5 @@
 alias gd='./gradlew --console=plain --profile '
 alias gdnp="echo -Dorg.gradle.parallel=false"
-alias kfmt='./gradlew --console=plain ktlintFormat'
+# alias kfmt='./gradlew --console=plain ktlintFormat'
+alias kfmt="ktlint --format '**/*.kt' '**/*.kts' '!**/build/**/*.kts' '!**/build/**/*.kt'"
 alias gitFormatBranch="git filter-branch -f --tree-filter 'zsh -i -c \"kfmt || echo \\\"Error on \\\$(git rev-parse HEAD)\\\";  git clean -fdX\"'  \$(git merge-base $(gitCurrentBranch) $(_gitFindOriginMain))..HEAD"
