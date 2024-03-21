@@ -8,8 +8,7 @@ source ~/.zshrc
 
 echo "Running pre-commit checks..."
 
-echo $PWD
-#  gitListNamesOfAllModifiedFiles| xargs ktlint --format
+gitListNamesOfAllModifiedFiles | grep -E '\.kt$|\.kts$' | xargs ktlint --format
 
 # If everything is fine, exit with 0
 exit 0
