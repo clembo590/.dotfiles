@@ -1,0 +1,14 @@
+#!/bin/zsh
+
+# Source the .zshrc file to load all configurations and functions
+source ~/.zshrc
+
+# Example pre-commit hook script
+# This script will echo a message before allowing a commit
+
+echo "Running pre-commit checks..."
+
+ gitListNamesOfAllModifiedFiles| xargs ktlint --format
+
+# If everything is fine, exit with 0
+exit 0

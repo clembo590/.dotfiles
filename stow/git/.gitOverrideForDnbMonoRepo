@@ -1,2 +1,2 @@
 [core]
-    hooksPath = ~/.dotfiles/my_git_hooks
+    hooksPath = ~/.dotfiles/my_git_hooks/dnb_git_hooks
