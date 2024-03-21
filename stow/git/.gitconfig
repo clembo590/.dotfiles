@@ -14,7 +14,6 @@
     UseHttpPath = true
 
 [core]
-  hooksPath = ~/.dotfiles/my_git_hooks
   pager = less -FRSX
 	editor = code --wait
 	excludesfile = ~/.gitignore
@@ -57,11 +56,19 @@
 	email = clement.brice.alexis.boret@dnb.no
 	name = clement
 
-[include]
-    path = ~/.gitconfig_local
+
+[includeIf "gitdir:~/.dotfiles/"]
+    path = ~/.gitoverride
 
 [includeIf "gitdir:~/code/tutorials/"]
-    path = ~/.dotfiles/gitoverride
+    path = ~/.gitoverride
+
+[includeIf "gitdir:~/code/dnb/pmdi-monorepo/"]
+    path = ~/.gitOverrideForDnbMonoRepo
+
+[includeIf "gitdir:~/code/dnb/ALLpmdiMonoRepo/"]
+    path = ~/.gitOverrideForDnbMonoRepo    
+    
 
 [diff]
     tool = bc
