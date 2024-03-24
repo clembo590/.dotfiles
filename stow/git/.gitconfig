@@ -57,11 +57,11 @@
 	name = clement
 
 
-[includeIf "gitdir:~/.dotfiles/"]
-    path = ~/.gitoverride
+# [includeIf "gitdir:~/.dotfiles/"]
+#     path = ~/.gitoverride
 
-[includeIf "gitdir:~/code/tutorials/"]
-    path = ~/.gitoverride
+# [includeIf "gitdir:~/code/tutorials/"]
+#     path = ~/.gitoverride
 
 [includeIf "gitdir:~/code/dnb/pmdi-monorepo/"]
     path = ~/.gitOverrideForDnbMonoRepo
